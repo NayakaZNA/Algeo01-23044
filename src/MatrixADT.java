@@ -11,6 +11,12 @@ public class MatrixADT {
         this.matrix = new double[nRows][nCols];
     }
 
+    public MatrixADT(double[][] contents) {
+        this.nRows = contents.length;
+        this.nCols = contents[0].length;
+        this.matrix = contents;
+    }
+
     public int getRows() {
         return this.nRows;
     }
@@ -58,6 +64,7 @@ public class MatrixADT {
                 }
             }
         }
+        scan.close();
     }
 
     public static MatrixADT matrixMinor(MatrixADT m, int i, int j) {
@@ -92,5 +99,39 @@ public class MatrixADT {
             }
         }
         return copyMatrix;
+    }
+    public MatrixADT add(MatrixADT b) {
+        if (this.nCols != b.nCols || this.nRows != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, this.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < this.nCols; j++){
+                res.setElmt(i, j, this.getElmt(i, j) + b.getElmt(i, j));
+            }
+        }
+        return res;
+    }
+    public MatrixADT subtract(MatrixADT b) {
+        if (this.nCols != b.nCols || this.nRows != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, this.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < this.nCols; j++){
+                res.setElmt(i, j, this.getElmt(i, j) - b.getElmt(i, j));
+            }
+        }
+        return res;
+    }
+    public MatrixADT multiply(MatrixADT b) {
+        if (this.nCols != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, b.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < b.nCols; j++){
+                double e = 0;
+                for (int k = 0; k < this.nCols; k++){
+                    e += this.getElmt(i, k) * b.getElmt(k, j);
+                }
+                res.setElmt(i, j, e);
+            }
+        }
+        return res;
     }
 }

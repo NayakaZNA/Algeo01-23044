@@ -42,7 +42,8 @@ public class Regresi {
         return res;
     }
     public static MatrixADT RegresiKuadratikBerganda(MatrixADT data, MatrixADT queries){
-
+        System.err.println("Not Implemented");
+        return null;
     } 
     private static MatrixADT BicubicSplineMatrixGenerator(MatrixADT coordinates){
         MatrixADT res = new MatrixADT(16, 16) ;
@@ -134,19 +135,5 @@ public class Regresi {
             + coefs.getElmt(13, 0) * x * y3
             + coefs.getElmt(14, 0) * x2 * y3
             + coefs.getElmt(15, 0) * x3*y3);
-    }
-    public static void main(String[] args) {
-        MatrixADT values = new MatrixADT(
-            new double[][] {
-                {69}, {96}, {420}, {},
-                {1}, {1}, {1}, {1},
-                {0}, {0}, {0}, {0},
-                {0}, {0}, {0}, {0},
-            });
-        
-        System.out.println(BicubicSplineInterpolation(values, 2, 1));
-        MatrixADT data = new MatrixADT( new double[][] {{0, 2}, {2, 0}});
-        MatrixADT q = new MatrixADT( new double[][] {{1}});
-        RegresiLinierBerganda(data, q).printMatrix();
     }
 }

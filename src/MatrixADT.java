@@ -58,6 +58,7 @@ public class MatrixADT {
                 }
             }
         }
+        scan.close();
     }
 
     public static MatrixADT matrixMinor(MatrixADT m, int i, int j) {

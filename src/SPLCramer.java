@@ -1,5 +1,5 @@
 public class SPLCramer {
-    public static void cramer(MatrixADT m) {
+    public static double[] cramer(MatrixADT m) {
         int rows = m.nRows;
         int cols = m.nCols;
 
@@ -14,7 +14,7 @@ public class SPLCramer {
 
         if (detCoefficient == 0) {
             System.out.println("Determinan dari matriks adalah 0, tidak bisa menggunakan Cramer untuk menemukan solusi.");
-            return;
+            return null;
         }
 
         double[] res = new double[cols - 1];
@@ -27,9 +27,6 @@ public class SPLCramer {
             det = DeterminanMK.detMK(temp);
             res[j] = det / detCoefficient;
         }
-
-        for (int i = 1; i < cols; i++) {
-            System.out.printf("X" + i + ": %.6f\n", res[i - 1]);
-        }
+        return res;
     }
 }

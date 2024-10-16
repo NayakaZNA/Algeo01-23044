@@ -42,7 +42,53 @@ public class Regresi {
         return res;
     }
     public static MatrixADT RegresiKuadratikBerganda(MatrixADT data, MatrixADT queries){
-        System.err.println("Not Implemented");
+        MatrixADT linear = new MatrixADT(data.nCols * (data.nCols+1) / 2, data.nCols * (data.nCols+1) / 2);
+        MatrixADT lineary = new MatrixADT(data.nCols * (data.nCols + 1) /2, 1);
+        for(int i = 0; i < data.nCols; i++){
+            for(int j = i; j < data.nCols; j++){
+                for(int k = 0; k < data.nCols; k++){
+                    for(int l = k; l < data.nCols; l++){
+                        double sum = 0;
+                        for (int m = 0; m < data.nRows; m++){
+                            double a;
+                            if (i == 0){
+                                if (j == 0) a = 1;
+                                else a = data.getElmt(m, j-1);
+                            } else {
+                                a = data.getElmt(m, i-1) * data.getElmt(m, j-1);
+                            }
+                            double b;
+                            if (k == 0){
+                                if (l == 0) b = 1;
+                                else b = data.getElmt(m, l-1);
+                            } else {
+                                b = data.getElmt(m, k-1) * data.getElmt(m, l-1);
+                            }
+                            sum += a * b;
+                        }
+                        linear.setElmt(i * (2 * data.nCols - i - 1) / 2 + j, k * (2 * data.nCols - k - 1) / 2 + l, sum);
+                        linear.setElmt(k * (2 * data.nCols - k - 1) / 2 + l, i * (2 * data.nCols - i - 1) / 2 + j, sum);
+                    }
+                }
+            }
+        }
+        for(int i = 0; i < data.nCols; i++){
+            for(int j = i; j < data.nCols; j++){
+                double sum = 0;
+                for (int k = 0; k < data.nRows; k++){
+                    double a;
+                    if (i == 0){
+                        if (j == 0) a = 1;
+                        else a = data.getElmt(k, j-1);
+                    } else {
+                        a = data.getElmt(k, i-1) * data.getElmt(k, j-1);
+                    }
+                    sum += data.getElmt(k, data.nCols-1) * a;
+                }
+                lineary.setElmt(i * (2 * data.nCols - i - 1) / 2 + j, 0, sum);
+            }
+        }
+        InverseGaussJ.inverseGaussJ(linear).multiply(lineary).printMatrix();
         return null;
     } 
     private static MatrixADT BicubicSplineMatrixGenerator(MatrixADT coordinates){
@@ -117,23 +163,6 @@ public class Regresi {
     public static double BicubicSplineInterpolation(MatrixADT coordinates, MatrixADT values, double x, double y){
         MatrixADT mtx = InverseGaussJ.inverseGaussJ(BicubicSplineMatrixGenerator(BSIDefaultCoordinates));
         MatrixADT coefs = mtx.multiply(values);
-        double x2 = x * x, x3 = x2 * x, y2 = y * y, y3 = y2 * y;
-        return (
-            coefs.getElmt(0, 0)
-            + coefs.getElmt(1, 0) * x
-            + coefs.getElmt(2, 0) * x2
-            + coefs.getElmt(3, 0) * x3
-            + coefs.getElmt(4, 0) * y
-            + coefs.getElmt(5, 0) * x * y
-            + coefs.getElmt(6, 0) * x2 * y
-            + coefs.getElmt(7, 0) * x3 * y
-            + coefs.getElmt(8, 0) * y2
-            + coefs.getElmt(9, 0) * x * y2
-            + coefs.getElmt(10, 0) * x2 * y2
-            + coefs.getElmt(11, 0) * x3 * y2
-            + coefs.getElmt(12, 0) * y3
-            + coefs.getElmt(13, 0) * x * y3
-            + coefs.getElmt(14, 0) * x2 * y3
-            + coefs.getElmt(15, 0) * x3*y3);
+        return BicubicEquation(coefs, x, y);
     }
 }

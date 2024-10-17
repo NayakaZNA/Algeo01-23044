@@ -6,13 +6,15 @@ import java.io.BufferedReader;
 
 public class txtIO {
     public static MatrixADT readTXT(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(filename));
             // Menentukan dimensi matriks
             int i = 0, m = 0, n = 0;
-            while (br.readLine() != null) {
-                m = m + 1;
+            String line;
+            while ((line = br.readLine()) != null) {
+                m++;
                 if (m == 1) {
-                    n = br.readLine().split(" ").length;
+                    n = line.split(" ").length;
                 }
             }
 
@@ -28,10 +30,13 @@ public class txtIO {
                 }
                 i++;
             }
-                return inputMatrix;
+            br.close();
+            return inputMatrix;
                 
         } catch (IOException e) {
-            // Jika file kosong atau tidak ada, kembalikan null
+            // Jika file kosong atau tidak ada, kembalikan pesan error dan null
+            System.out.println("Sebuah error terjadi saat membaca file.");
+            e.printStackTrace();
             return null;
         }
 

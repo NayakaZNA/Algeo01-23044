@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.BufferedReader;
@@ -36,6 +37,33 @@ public class txtIO {
 
     }
     public static void writeTXT(String filename, MatrixADT outputMatrix) {
-        
+        File outputTXT = new File(filename);
+        try {
+            System.out.println("Memeriksa keberadaan " + filename +"...");
+            if (!outputTXT.exists()) {
+                System.out.println(filename + " tidak ada! Membuat " + filename + ".");
+                outputTXT.createNewFile();
+                System.out.println(filename + " berhasil dibuat.");
+            } else {System.out.println(filename + " ditemukan!");}
+            try (FileWriter writer = new FileWriter(outputTXT, false)) {
+                for (int i = 0; i < outputMatrix.getRows(); i++) {
+                    String line = "";
+                    for (int j = 0; j < outputMatrix.getCols(); j++) {
+                        if (j == 0) {
+                            line += Double.toString(outputMatrix.getElmt(i, j));
+                        } else {
+                            line += " " + Double.toString(outputMatrix.getElmt(i, j));
+                        }
+                    }
+                    writer.write(line);
+                    writer.write("\n");
+                }
+            System.out.println(filename + " berhasil disimpan!");
+            }
+        }
+        catch (IOException e) {
+            System.out.println("Sebuah error terjadi ketika membuat atau menyimpan file.");
+            e.printStackTrace();
+        }
     }
 }

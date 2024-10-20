@@ -36,7 +36,7 @@ public class txtIO {
                 
         } catch (IOException e) {
             // Jika file kosong atau tidak ada, kembalikan pesan error dan null
-            System.out.println("Sebuah error terjadi saat membaca file.");
+            System.out.println("File kosong atau tidak ada");
             e.printStackTrace();
             return null;
         }

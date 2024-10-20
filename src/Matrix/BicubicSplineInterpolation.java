@@ -41,8 +41,19 @@ public class BicubicSplineInterpolation {
         }
         return res;
     }
-
-    private static MatrixADT bicubicSplineCoefs(MatrixADT coordinates, MatrixADT values){
+    public static MatrixADT straighten(MatrixADT input){
+        MatrixADT res = new MatrixADT(16, 1);
+        for (int i = 0; i < 4; i++){
+            for (int j = 0; j < 4; j++){
+                res.setElmt(j+4*i, 0, input.getElmt(i, j));
+            }
+        }
+        return res;
+    }
+    public static MatrixADT bicubicSplineCoefs(MatrixADT values){
+        return bicubicSplineMatrixGenerator(BSIDefaultCoordinates).inverse().multiply(values);
+    }
+    public static MatrixADT bicubicSplineCoefs(MatrixADT coordinates, MatrixADT values){
         return bicubicSplineMatrixGenerator(coordinates).inverse().multiply(values);
     }
 
@@ -79,5 +90,26 @@ public class BicubicSplineInterpolation {
     public static double bicubicSplineInterpolation(MatrixADT coordinates, MatrixADT values, double x, double y){
         MatrixADT coefs = BSIDefaultMatrixInverse.multiply(values);
         return bicubicEquation(coefs, x, y);
+    }
+
+    public static void printEquation(MatrixADT coefs){
+        System.out.println("Y = " +
+        coefs.getElmt(0,0) + " + " +
+        coefs.getElmt(1,0) + " X + " + 
+        coefs.getElmt(2,0) + " X^2 + " + 
+        coefs.getElmt(3,0) + " X^3 + " +
+        coefs.getElmt(4,0) + " Y + " +
+        coefs.getElmt(5,0) + " XY + " +
+        coefs.getElmt(6,0) + " XY^2 + " +
+        coefs.getElmt(7,0) + " XY^3 + " +
+        coefs.getElmt(8,0) + " Y^2 + " +
+        coefs.getElmt(9,0) + " XY^2 + " +
+        coefs.getElmt(10,0) + " X^2Y^2 + " +
+        coefs.getElmt(11,0) + " X^3Y^2 + " +
+        coefs.getElmt(12,0) + " Y^3 + " +
+        coefs.getElmt(13,0) + " XY^3 + " +
+        coefs.getElmt(14,0) + " X^2Y^3 + " +
+        coefs.getElmt(15,0) + " X^3Y^3" 
+        );
     }
 }

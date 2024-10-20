@@ -1,11 +1,21 @@
+\documentclass{article}
 \usepackage{ebgaramond-maths}
 \usepackage[T1]{fontenc}
 
 %==Math & Physics Packages==
 \usepackage{amsmath, amsthm, amsfonts, amssymb, physics, cancel, nicefrac, setspace}
+\newcommand\arrows[3]{
+        \begin{matrix}[c]
+        \ifx\relax#1\relax\else \xrightarrow{#1}\fi\\
+        \ifx\relax#2\relax\else \xrightarrow{#2}\fi\\
+        \ifx\relax#3\relax\else \xrightarrow{#3}\fi
+        \end{matrix}
+}
+\newcommand\aug{\fboxsep=-\fboxrule\!\!\!\fbox{\strut}\!\!\!}
 \allowdisplaybreaks
 
 %==Image-related Packages==
+\usepackage{dirtree}
 \usepackage{graphicx, tikz, pgfplots, xcolor, fourier-orns}
 \usetikzlibrary{arrows.meta}
 \pgfplotsset{compat=1.18}
@@ -24,6 +34,9 @@
 \definecolor{merjamb}{HTML}{FFB6E0}
 
 %==Formatting Packages==
+
+\usepackage{float}
+\usepackage{caption}
 \usepackage{tocbasic}
 \renewcommand*{\tableofcontents}{\listoftoc[\contentsname]{toc}}
 \renewcommand*{\listoffigures}{\listoftoc[\listfigurename]{lof}}
@@ -35,6 +48,8 @@
 
 
 \renewcommand*\contentsname{Daftar Isi}
+\renewcommand{\figurename}{Gambar}
+\captionsetup[table]{name=Tabel}
 %\renewcommand*{\multicolumntoc}{2}
 \setlength{\columnseprule}{1.5pt}
 
@@ -123,7 +138,14 @@
 	numbers=none,
 }
 \lstset{style=default}
+\titleformat{\paragraph}[runin]{\normalfont\bfseries}{\theparagraph}{1em}{}
+\newcounter{subsubsubsection}  
+\setcounter{subsubsubsection}{0}  
 
+\newcommand{\subsubsubsection}[1]{%
+  \refstepcounter{subsubsubsection}  
+  \paragraph*{\thesubsubsection.\arabic{subsubsubsection}\quad #1} 
+}
 
 \newcommand{\fpb}[2]{\mathrm{FPB}(#1, #2)}
 \newcommand{\kpk}[2]{\mathrm{KPK}(#1, #2)}
@@ -183,3 +205,26 @@
 	\or Oktober%
 	\or November%
 	\or Desember\fi\ $\number\year$}%
+
+ %%%%%%%%%%%%%%%%%%%%%
+ %%%%%%% JUDUL %%%%%%%
+ %%%%%%%%%%%%%%%%%%%%%
+ \title{
+\textbf{Laporan Tugas Besar 1} 
+\\ IF$2123$ Aljabar Linear dan Geometri \\[5em]
+}
+
+\author{
+{\centering\includegraphics[scale=0.1]{cat.jpg} } \\[2.5em]
+$\begin{array}{ll}
+    \text{Muhammad Luqman Hakim}           & 13523044 \\ 
+    \text{Zulfaqqar Nayaka Athadiansyah}   & 13523094 \\ 
+    \text{Farrel Athalla Putra}            & 13523118 \\[5em]
+\end{array}$
+    } 
+
+
+\date{\Large\textbf{Program Studi Teknik Informatika \\
+Sekolah Teknik Elektro dan Informatika \\
+Institut Teknologi Bandung \\
+2024}}

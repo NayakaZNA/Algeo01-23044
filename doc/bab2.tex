@@ -1,13 +1,313 @@
 \section{Teori Singkat}
+\subsection{Sistem Persamaan Linear}
+Sistem persamaan linear (SPL) adalah kumpulan persamaan linear yang melibatkan peubah-peubah yang sama, misalnya sebagai berikut:
+
+\[\begin{cases}
+    a_{11}x_{1} + a_{12}x_{2} + a_{13}x_{3} + \ldots + a_{1n}x_{n} &= b_1 \\ 
+    a_{21}x_{1} + a_{22}x_{2} + a_{23}x_{3} + \ldots + a_{2n}x_{n} &= b_2 \\
+    \ldots \\
+    a_{n1}x_{1} + a_{n2}x_{2} + a_{n3}x_{3} + \ldots + a_{nn}x_{n} &= b_n
+\end{cases}\]
+
+yang terdiri atas $n$ persamaan dengan $n$ buah peubah ($x_{i}$ untuk $i \in [1, n]$). Persamaan tersebut dapat dinyatakan kembali dalam bentuk perkalian matriks,
+
+\begin{equation*}    
+    \begin{bmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} 
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}
+        x_1\\
+        x_2\\
+        \vdots\\
+        x_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        b_1\\
+        b_2\\
+        \vdots\\
+        b_n
+    \end{bmatrix}
+\end{equation*}
+
+dan, lebih lanjut lagi, dalam bentuk matriks \textit{augmented},
+
+\begin{equation*}
+    \begin{bmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} & \aug & b_1    \\
+        a_{21} & a_{22} & \ldots & a_{2n} & \aug & b_2    \\
+        \vdots & \vdots & \ddots & \vdots & \text{\huge$\aug$} & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} & \aug & b_n 
+    \end{bmatrix}.
+\end{equation*}
+
+Bentuk ini lebih mudah dimanipulasi untuk mendapatkan solusi dari SPL-nya dengan metode-metode yang akan kita bahas di subbab selanjutnya. Pada matriks \textit{augmented}, ada tiga macam operasi baris elementer (OBE) yang dapat diberlakukan:
+
+\begin{enumerate}
+    \item Mengalikan suatu baris dengan konstanta tidak nol;
+    \item Menukarkan dua baris; dan
+    \item Menjumlahkan salah satu baris dengan kelipatan dari baris lainnya.
+\end{enumerate}
+
+Secara umum, ada tiga kemungkinan solusi dari sebuah SPL: solusi unik/tunggal, tak berhingga, atau tidak ada solusi. Secara grafis, untuk $n = 2$ kita dapat pandang suatu persamaan linear sebagai persamaan garis dan keberadaan solusi dari suatu sistem persamaan linear dapat ditentukan berdasarkan ada tidaknya perpotongan antara seluruh garis yang ada. 
+
+{\centering <<nantinya ada ilustrasi di sini>> \par}
+
 \subsection{Eliminasi Gauss}
+
+Metode eliminasi Gauss adalah metode untuk menyelesaikan SPL dengan cara menerapkan operasi baris elementer pada matriks \textit{augmented} dari suatu SPL. Tujuan utamanya adalah membuat koefisien peubah pada posisi tertentu menjadi 1 dan mengeliminasi peubah lainnya di bawahnya, sedemikian sehingga terbentuk matriks segitiga atas (\textit{upper triangular matrix}), di mana semua elemen di bawah diagonal utama adalah nol. Selanjutnya, dilakukan penyulihan mundur untuk mendapatkan nilai dari tiap peubah. 
+
+Sebagai ilustrasi, diberikan SPL dalam bentuk matriks \textit{augmented} sebagai berikut,
+
+\[
+    \begin{bmatrix}
+        7 & 1 & 5 & \aug & 27 \\
+        4 & 3 & 5 & \aug & 21 \\
+        6 & 1 & 2 & \aug & 9 
+    \end{bmatrix}
+\]
+
+kita dapat melakukan OBE hingga didapatkan matriks segitiga atas,
+
+\[
+    \begin{bmatrix}
+        1 & 0 & \dfrac{10}{209}  & \text{\huge $\aug$} & \dfrac{60}{209}     \\
+        0 & 1 & \dfrac{335}{209} & \text{\huge $\aug$} & \dfrac{1389}{209}   \\
+        0 & 0 & 1 & \aug & 6
+    \end{bmatrix}.
+\]
+
+Dari sini didapatkan $x_3 = 6$. Melakukan penyulihan mundur memberikan kita $x_1 = 0$ dan $x_2 = -3$. Untuk $n$ yang cukup besar, banyaknya operasi yang dibutuhkan kurang lebih sebanyak $n^3/3$.
+
 \subsection{Eliminasi Gauss-Jordan}
-\subsection{Determinan} 
+
+Eliminasi Gauss-Jordan sebenarnya hanyalah kelanjutan dari eliminasi Gauss. Ketimbang membiarkannya dalam bentuk matriks eselon dan melakukan penyulihan mundur secara manual ke dalam SPL, kita dapat melakukannya dengan OBE hingga didapatkan matriks eselon tereduksi. Misalnya, untuk matriks pada bagian sebelumnya, kita dapatkan
+
+\[
+    \begin{bmatrix}
+        1 & 0 & \dfrac{10}{209}  & \text{\huge $\aug$} & \dfrac{60}{209}     \\
+        0 & 1 & \dfrac{335}{209} & \text{\huge $\aug$} & \dfrac{1389}{209}   \\
+        0 & 0 & 1 & \aug & 6
+    \end{bmatrix}
+    \text{\large $\begin{array}{c}
+        \stackrel{R1 - 10R3/209}{\longrightarrow} \\
+        \stackrel{R2 - 335R3/209}{\longrightarrow} 
+    \end{array}$}
+    \begin{bmatrix}
+        1 & 0 & 0 & \aug & 0  \\
+        0 & 1 & 0 & \aug & -3 \\
+        0 & 0 & 1 & \aug & 6
+    \end{bmatrix}
+\]
+
+sehingga dapat langsung kita simpulkan $(x_1, x_2, x_3) = (0, -3, 6)$.
+
+\subsection{Determinan}
+    Determinan pada dasarnya hanyalah suatu bilangan, tetapi mempunyai makna yang besar dalam aljabar linear. Determinan dapat menentukan keberadaan dari balikan suatu matriks. Jika $\det(M) = 0$ maka kita katakan $M$ adalah matriks yang \textit{singular} dan \textbf{tidak} mempunyai balikan. Sebaliknya, jika $\det(M) \neq 0$ maka $M$ mempunyai balikan.
+
+    Untuk matriks $M$ berukuran $2 \times 2$, determinannya dapat dihitung sebagai berikut:
+
+    \[
+        \det(M) = 
+        \begin{vmatrix}
+            m_{11} & m_{12} \\
+            m_{21} & m_{22}
+        \end{vmatrix}
+        =
+        m_{11} m_{22} - m_{12} m_{21}
+    \]
+
+    Secara umum, ada setidaknya dua metode yang dapat digunakan untuk menghitung determinan dari suatu matriks, yakni metode reduksi baris dan metode ekspansi kofaktor Laplace.
+
+    \subsubsection{Metode Reduksi Baris}
+        Metode ini didasari atas beberapa identitas yang berlaku untuk determinan:
+
+        \begin{enumerate}
+            \item Menukarkan baris atau kolom dari suatu matriks persegi akan mengubah tanda determinannya.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                d & e & f \\
+                a & b & c \\    
+                g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                 b & a & c \\    
+                 e & d & f \\
+                 h & g & i 
+            \end{vmatrix} 
+            =
+            -\det(M)
+            \]
+            
+            \item Mengalikan satu baris atau kolom matriks persegi dengan suatu konstanta akan mengalikan determinannya dengan konstanta tersebut.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                2\cdot a & b & c \\    
+                2\cdot d & e & f \\
+                2\cdot g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                a & b & c \\    
+                2\cdot d & 2\cdot e & 2\cdot f \\
+                g & h & i 
+            \end{vmatrix} 
+            =
+            2\det(M)
+            \]
+
+            \item Menjumlahkan satu baris dengan kelipatan dari baris lainnya (berlaku untuk kolom juga) tidak mengubah nilai determinannya.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                a + 3d & b + 3e & c + 3f \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                a + 5c & b & c \\    
+                d + 5f & e & f \\
+                g + 5i & h & i 
+            \end{vmatrix} 
+            =
+            \det(M)
+            \]
+        \end{enumerate}
+
+        Metode reduksi baris melibatkan operasi baris dan kolom elementer untuk mendapatkan matriks segitiga atas.
+
+        \[ 
+            \det(M) = 
+            \begin{vmatrix}
+                a_{11} & a_{12} & \ldots & a_{1n} \\    
+                a_{21} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+            \stackrel{OBE/OKE}{\longrightarrow}
+            \begin{vmatrix}
+                a_{11}' & a_{12}'   & \ldots & a_{1n}'   \\    
+                0       & a_{22}'   & \ldots & a_{2n}'   \\
+                \vdots  & \vdots    & \ddots & \vdots    \\
+                0       & 0         & \ldots & a_{3n}' 
+            \end{vmatrix} 
+        \]
+
+        Determinannya kemudian dapat dihitung dengan persamaan berikut:
+
+        \[
+            \det(M) = \frac{(-1)^p a_{11}' \cdot a_{22}' \cdot \ldots \cdot a_{nn}'}{k_1 k_2 \ldots k_n}
+        \]
+
+        di mana $p$ adalah banyaknya operasi pertukaran baris dan $k_1, k_2, \ldots, k_n$ adalah konstanta-konstanta yang dikalikan pada baris atau kolom.
+        
+    \subsubsection{Metode Ekspansi Kofaktor Laplace}
+
+    
 \subsection{Matriks Balikan}
-\subsection{Matriks Kofaktor} 
-\subsection{Matriks Adjoin}
 \subsection{Kaidah Cramer} 
+
+Kaidah Cramer adalah kaidah untuk menyelesaikan SPL dengan melibatkan perhitungan determinan matriks koefisien dan determinan dari matriks yang didapatkan dengan mengganti salah satu kolom matriks koefisien dengan matriks yang berada di ruas kanan. Diberikan persamaan matriks $A \textbf{x} = \textbf{b}$ sebagai berikut,
+
+\[
+    \begin{bmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} 
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}
+        x_1\\
+        x_2\\
+        \vdots\\
+        x_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        b_1\\
+        b_2\\
+        \vdots\\
+        b_n
+    \end{bmatrix},
+\]
+
+solusinya adalah
+
+\[ x_1 = \frac{
+            \begin{vmatrix}
+                b_{1} & a_{12} & \ldots & a_{1n} \\    
+                b_{2} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots& \ddots & \vdots \\
+                b_{n} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+}{
+            \begin{vmatrix}
+                a_{11} & a_{12} & \ldots & a_{1n} \\    
+                a_{21} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+}, \quad
+x_2 = \frac{
+            \begin{vmatrix}
+                a_{11} & b_{1}  & \ldots & a_{1n} \\    
+                a_{21} & b_{2}  & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & b_{n}  & \ldots & a_{nn} 
+            \end{vmatrix} 
+}{
+            \begin{vmatrix}
+                a_{11} & a_{12} & \ldots & a_{1n} \\    
+                a_{21} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+}, \quad \ldots, \quad x_n = \frac{
+            \begin{vmatrix}
+                a_{11} & a_{12}  & \ldots & b_{1} \\    
+                a_{21} & a_{22}  & \ldots & b_{2} \\
+                \vdots & \vdots  & \ddots & \vdots \\
+                a_{n1} & a_{n2}  & \ldots & b_{n} 
+            \end{vmatrix} 
+}{
+            \begin{vmatrix}
+                a_{11} & a_{12} & \ldots & a_{1n} \\    
+                a_{21} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+}
+\]
+
+Dengan metode yang naif ini, kurang lebih sekitar $n^4$ operasi dibutuhkan. Dengan demikian, metode Cramer lebih boros dibandingkan metode eliminasi Gauss sehingga cenderung digunakan untuk $n$ yang kecil saja.
+
 \subsection{Interpolasi Polinom}
+
+Interpolasi adalah 
+
 \subsection{Interpolasi \textit{Bicubic Spline}}
 \subsection{Regresi Linier Berganda}
-\subsection{Kuadratik Berganda}
+\subsection{Regresi Kuadratik Berganda}
 \pagebreak

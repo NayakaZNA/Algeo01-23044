@@ -1,3 +1,4 @@
+package Matrix;
 import java.util.Scanner;
 
 public class MatrixADT {
@@ -90,7 +91,6 @@ public class MatrixADT {
 
         return temp;
     }
-
     public MatrixADT copyMatrix() {
         MatrixADT copyMatrix = new MatrixADT(this.nRows, this.nCols);
         for (int i = 0; i < this.nRows; i++) {
@@ -133,5 +133,13 @@ public class MatrixADT {
             }
         }
         return res;
+    }
+
+    public MatrixADT inverse(){
+        return InverseGaussJ.inverseGaussJ(this);
+    }
+
+    public double determinant(){
+        return DeterminanReduksi.detRB(this);
     }
 }

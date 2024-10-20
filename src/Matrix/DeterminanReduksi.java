@@ -1,3 +1,4 @@
+package Matrix;
 public class DeterminanReduksi {
     public static double detRB(MatrixADT m) {
         MatrixADT temp = m.copyMatrix();
@@ -41,4 +42,5 @@ public class DeterminanReduksi {
         m.matrix[row1] = m.matrix[row2];
         m.matrix[row2] = temp;
     }
+
 }

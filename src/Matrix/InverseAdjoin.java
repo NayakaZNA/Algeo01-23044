@@ -1,8 +1,8 @@
+package Matrix;
 public class InverseAdjoin {
     public static MatrixADT inverseAdj(MatrixADT m) {
         double det = DeterminanMK.detMK(m);
         if (det == 0) {
-            System.out.println("Matriks tidak memiliki invers");
             return null;
         }
         MatrixADT cofactorMatrix = new MatrixADT(m.nRows, m.nCols);

@@ -1,3 +1,4 @@
+package Matrix;
 public class InverseGaussJ {
     public static MatrixADT inverseGaussJ(MatrixADT m) {
         MatrixADT temp = OBEGaussJ(convertMatrix(m));

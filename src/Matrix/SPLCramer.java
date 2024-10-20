@@ -1,3 +1,4 @@
+package Matrix;
 public class SPLCramer {
     public static void cramer(MatrixADT m) {
         int rows = m.nRows;

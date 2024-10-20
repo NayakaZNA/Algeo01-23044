@@ -1,3 +1,4 @@
+package Matrix;
 public class DeterminanMK {
     public static double detMK(MatrixADT m) {
         if (m.nRows == 1) {

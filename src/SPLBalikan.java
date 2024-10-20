@@ -13,7 +13,7 @@ public class SPLBalikan {
             B.matrix[i][0] = m.matrix[i][m.nCols-1];
         }
 
-        MatrixADT AInverse = InverseAdjoin.inverseAdj(A);
+        MatrixADT AInverse = InverseGaussJ.inverseGaussJ(A);
         if (AInverse == null) {
             System.out.println("Determinan dari matriks adalah 0, tidak bisa menggunakan Balikan untuk menemukan solusi.");
             return null;

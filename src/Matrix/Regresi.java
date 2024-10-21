@@ -1,7 +1,7 @@
 package Matrix;
 public class Regresi {
 
-    public static MatrixADT regresiLinierBerganda(MatrixADT data, MatrixADT queries){
+    public static MatrixADT regresiLinierBerganda(MatrixADT data){
         MatrixADT regressionXs = new MatrixADT(data.nCols, data.nCols);
         MatrixADT regressionY = new MatrixADT(data.nCols, 1);
         regressionXs.setElmt(0, 0, data.nRows);
@@ -31,7 +31,14 @@ public class Regresi {
             }
             regressionY.setElmt(i, 0, sum);
         }
-        MatrixADT coefs = InverseGaussJ.inverseGaussJ(regressionXs).multiply(regressionY);
+        MatrixADT inverse = InverseGaussJ.inverseGaussJ(regressionXs);
+        if (inverse == null) return null;
+        MatrixADT coefs = inverse.multiply(regressionY);
+        return coefs;
+    }
+
+    public static MatrixADT predict(MatrixADT coefs, MatrixADT queries){
+        if (coefs == null) return null;
         MatrixADT res = new MatrixADT(queries.nRows, 1);
         for (int i = 0; i < res.nRows; i++){
             double resY = coefs.getElmt(0, 0);
@@ -43,7 +50,16 @@ public class Regresi {
         return res;
     }
 
+    public static void printLinearSolution(MatrixADT coefs){
+        if (coefs == null) System.out.println("Regresi gagal.");
+        System.out.printf("Y = %.3f ", coefs.getElmt(0,0));
+        for(int i = 1; i < coefs.getRows(); i++){
+            System.out.printf("+ %.3f X%d ", coefs.getElmt(i, 0), i);
+        }
+    }
+
     private static MatrixADT multipleQuadraticEquation(MatrixADT coefs, MatrixADT queries){
+        if (coefs == null) return null;
         MatrixADT res = new MatrixADT(queries.nRows, 1);
         for (int i = 0; i < queries.nRows; i++){
             double sum = 0;
@@ -62,7 +78,7 @@ public class Regresi {
         return res;
     }
 
-    public static MatrixADT regresiKuadratikBerganda(MatrixADT data, MatrixADT queries){
+    public static MatrixADT regresiKuadratikBerganda(MatrixADT data){
         MatrixADT linear = new MatrixADT(data.nCols * (data.nCols+1) / 2, data.nCols * (data.nCols+1) / 2);
         MatrixADT lineary = new MatrixADT(data.nCols * (data.nCols + 1) /2, 1);
         for(int i = 0; i < data.nCols; i++){
@@ -109,8 +125,36 @@ public class Regresi {
                 lineary.setElmt(i * (2 * data.nCols - i - 1) / 2 + j, 0, sum);
             }
         }
-        MatrixADT coefs = InverseGaussJ.inverseGaussJ(linear).multiply(lineary);
-        return multipleQuadraticEquation(coefs, queries);
-    } 
+        MatrixADT inverse = InverseGaussJ.inverseGaussJ(linear);
+        if (inverse == null) return null;
+        MatrixADT coefs = inverse.multiply(lineary);
+        linear.printMatrix();
+        lineary.printMatrix();
+        inverse.printMatrix();
+        coefs.printMatrix();
+        return coefs;
+    }
 
+    public static void printQuadraticSolution(MatrixADT coefs, int nVars){
+        if (coefs == null) {
+            System.out.println("Regresi gagal.");
+            return;
+        }
+        System.out.printf("Y = %.3f ", coefs.getElmt(0,0));
+        for(int i=1; i < nVars+1; i++){
+            System.out.printf("+ %.3fX%d ", coefs.getElmt(i,0), i);
+        }
+        for (int i = 1; i < nVars+1; i++){
+            for(int j = i; j < nVars+1; j++){
+                int idx = (nVars + 1) * i - (i * (i-1) / 2) + (j-i);
+                if (i != j){
+                    System.out.printf(" + %.3fX%dX%d ", coefs.getElmt(idx, 0), i, j);
+                } else {
+                    System.out.printf(" + %.3fX%d^2d ", coefs.getElmt(idx, 0), i);
+                }
+            }
+        }
+    }
+    //     return multipleQuadraticEquation(coefs, queries);
+    // } 
 }

@@ -23,8 +23,12 @@ public class SPLBalikan {
         }
     }
     public static void displaySolution(MatrixADT result) {
-            for (int i = 1; i < result.nRows; i++) {
-                System.out.printf("X" + i + ": %.6f\n", result.getElmt(i, 0));
-            }
+        if (result == null) {
+            System.out.println("Solusi tidak dapat ditentukan");
+            return;
+        }
+        for (int i = 0; i < result.nRows; i++) {
+            System.out.printf("X" + (i+1) + ": %.6f\n", result.getElmt(i, 0));
+        }
     }
 }

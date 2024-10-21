@@ -1,6 +1,6 @@
 package Matrix;
 public class SPLCramer {
-    public static void cramer(MatrixADT m) {
+    public static MatrixADT solve(MatrixADT m) {
         int rows = m.nRows;
         int cols = m.nCols;
 
@@ -14,11 +14,10 @@ public class SPLCramer {
         double detCoefficient = DeterminanMK.detMK(coefficientMatrix);
 
         if (detCoefficient == 0) {
-            System.out.println("Determinan dari matriks adalah 0, tidak bisa menggunakan Cramer untuk menemukan solusi.");
-            return;
+            return null;
         }
 
-        double[] res = new double[cols - 1];
+        double[][] res = new double[cols - 1][1];
         double det;
         for (int j = 0; j < cols-1; j++) {
             MatrixADT temp = coefficientMatrix.copyMatrix();
@@ -26,11 +25,8 @@ public class SPLCramer {
                 temp.matrix[i][j] = m.matrix[i][cols - 1];
             }
             det = DeterminanMK.detMK(temp);
-            res[j] = det / detCoefficient;
+            res[j][0] = det / detCoefficient;
         }
-
-        for (int i = 1; i < cols; i++) {
-            System.out.printf("X" + i + ": %.6f\n", res[i - 1]);
-        }
+        return new MatrixADT(res);
     }
 }

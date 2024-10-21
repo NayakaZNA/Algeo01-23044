@@ -50,10 +50,8 @@ public class MatrixADT {
         System.out.println();
     }
 
-    public void readMatrix(int row, int col) {
+    public int readMatrix(int row, int col, Scanner scan) {
         double data;
-        System.out.println("Masukkan Matriks, pisahkan baris dengan newline dan kolom dengan spasi");
-        Scanner scan = new Scanner(System.in);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 try {
@@ -61,11 +59,11 @@ public class MatrixADT {
                     this.matrix[i][j] = data;
                 } catch (Exception e) {
                     System.out.println("Input tidak valid");
-                    scan.nextLine();
+                    return 1;
                 }
             }
         }
-        scan.close();
+        return 0;
     }
 
     public static MatrixADT matrixMinor(MatrixADT m, int i, int j) {

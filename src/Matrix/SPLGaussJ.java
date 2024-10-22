@@ -1,3 +1,4 @@
+package Matrix;
 import java.util.Arrays;
 public class SPLGaussJ {
     private MatrixADT matrix;
@@ -61,7 +62,7 @@ public class SPLGaussJ {
         }
         // Now call detectSolution to analyze the matrix
 //        System.out.println("detectSolution called");
-//        detectSolution();
+       detectSolution();
     }
 
 
@@ -81,7 +82,7 @@ public class SPLGaussJ {
         int cols = matrix.nCols;
         boolean noSolution = false;
         boolean parametricSolution = false;
-        System.out.println("detectSolution called");
+        // System.out.println("detectSolution called");
         // Check for inconsistency (no solution)
         for (int i = 0; i < rows; i++) {
             boolean allZeroes = true;
@@ -124,7 +125,7 @@ public class SPLGaussJ {
             }
 
             if (parametricSolution) {
-                System.out.println("Parametric solution detected");
+                // System.out.println("Parametric solution detected");
                 printParametricSolution(isPivotColumn, pivotRow);
             } else {
                 printUniqueSolution(pivotRow);

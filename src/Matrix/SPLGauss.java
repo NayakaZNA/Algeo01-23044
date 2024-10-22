@@ -1,3 +1,4 @@
+package Matrix;
 import java.util.Arrays;
 
 public class SPLGauss {
@@ -128,7 +129,7 @@ public class SPLGauss {
             }
 
             if (parametricSolution) {
-                System.out.println("Parametric solution detected");
+                // System.out.println("Parametric solution detected");
                 printParametricSolution(isPivotColumn, pivotRow);
             } else {
                 // If no free variables, we have a unique solution

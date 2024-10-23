@@ -13,6 +13,7 @@ public class txtIO {
             int i = 0, m = 0, n = 0;
             String line;
             while ((line = br.readLine()) != null) {
+                System.out.println(line);
                 m++;
                 if (m == 1) {
                     n = line.split(" ").length;
@@ -37,6 +38,8 @@ public class txtIO {
                 i++;
             }
             br.close();
+            initWriter(filename);
+            writeTXT(filename, inputMatrix);
             return inputMatrix;
                 
         } catch (IOException e) {
@@ -47,8 +50,10 @@ public class txtIO {
         }
     }
     
+    @SuppressWarnings("unused")
     public static void initWriter(String filename) {
         try {
+            @SuppressWarnings("resource")
             FileWriter cetak = new FileWriter(filename);
             File outputTXT = new File(filename);
             System.out.println("Memeriksa keberadaan " + filename +"...");

@@ -1,3 +1,4 @@
+package Matrix;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.FileReader;
@@ -20,14 +21,19 @@ public class txtIO {
 
             // Membuat matriks
             MatrixADT inputMatrix = new MatrixADT(m, n);
-            
+            br.close();
+
             // Mengisi matriks
-            while (br.readLine() != null) {
-                String[] temp = br.readLine().split(" ");
+            br = new BufferedReader(new FileReader(filename));
+            i = 0;
+            line = br.readLine();
+            while (line != null) {
+                String[] temp = line.split(" ");
                 // Mengisi baris ke-i
                 for (int j = 0; j < temp.length; j++) {
                     inputMatrix.setElmt(i, j, Double.valueOf(temp[j]));
                 }
+                line = br.readLine();
                 i++;
             }
             br.close();
@@ -35,11 +41,10 @@ public class txtIO {
                 
         } catch (IOException e) {
             // Jika file kosong atau tidak ada, kembalikan pesan error dan null
-            System.out.println("Sebuah error terjadi saat membaca file.");
+            System.out.println("File kosong atau tidak ada");
             e.printStackTrace();
             return null;
         }
-
     }
     public static void writeTXT(String filename, MatrixADT outputMatrix) {
         File outputTXT = new File(filename);

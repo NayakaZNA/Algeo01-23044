@@ -46,15 +46,24 @@ public class txtIO {
             return null;
         }
     }
-    public static void writeTXT(String filename, MatrixADT outputMatrix) {
-        File outputTXT = new File(filename);
+    
+    public static void initWriter(String filename) {
         try {
+            FileWriter cetak = new FileWriter(filename);
+            File outputTXT = new File(filename);
             System.out.println("Memeriksa keberadaan " + filename +"...");
             if (!outputTXT.exists()) {
                 System.out.println(filename + " tidak ada! Membuat " + filename + ".");
                 outputTXT.createNewFile();
                 System.out.println(filename + " berhasil dibuat.");
             } else {System.out.println(filename + " ditemukan!");}
+        } catch (IOException e) {
+            System.err.println(e);
+        }
+    }
+
+    public static void writeTXT(String filename, MatrixADT outputMatrix) {
+        File outputTXT = new File(filename);
             try (FileWriter writer = new FileWriter(outputTXT, false)) {
                 for (int i = 0; i < outputMatrix.getRows(); i++) {
                     String line = "";
@@ -70,7 +79,6 @@ public class txtIO {
                 }
             System.out.println(filename + " berhasil disimpan!");
             }
-        }
         catch (IOException e) {
             System.out.println("Sebuah error terjadi ketika membuat atau menyimpan file.");
             e.printStackTrace();

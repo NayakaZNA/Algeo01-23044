@@ -10,7 +10,8 @@ import Matrix.BicubicSplineInterpolation;
 import Matrix.DeterminanMK;
 import Matrix.DeterminanReduksi;
 import Matrix.txtIO;
-import java.io.File;
+import Matrix.SPLGauss;
+import Matrix.SPLGaussJ;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Main {
@@ -19,6 +20,7 @@ public class Main {
 
     private static void spl(int subchoice, MatrixADT mtx, Scanner scanner){
         subchoice = -1;
+        MatrixADT mtxSPL, mtxy;
         while(subchoice < 0 || subchoice > 4) {
             System.out.println(
             "\n0. Kembali" +
@@ -43,14 +45,33 @@ public class Main {
                 System.out.println("\nMasukan Anda salah!\n");
                 scanner.nextLine();
             }
-            System.out.println("Masukkan persamaan dalam bentuk matriks");
-            mtx = new MatrixADT(vars, vars+1);
-            mtx.readMatrix(vars, vars+1, scanner);
-        }
+            System.out.println("Masukkan matriks transformasi");
+            mtx = new MatrixADT(vars, vars);
+            mtx.readMatrix(vars, vars, scanner);
+            System.out.println("Masukkan vektor hasil");
+            mtxy = new MatrixADT(vars, 1);
+            mtxy.readMatrix(vars, 1, scanner);
+            mtxSPL = new MatrixADT(vars, vars+1);
+            for(int i = 0; i < vars; i++){
+                for(int j = 0; j < vars; j++){
+                    mtxSPL.setElmt(i, j, mtx.getElmt(i, j));
+                }
+            }
+            for(int i = 0; i < vars; i++){
+                mtxSPL.setElmt(i, vars, mtxy.getElmt(i, 0));
+            }
+        } else {
+            mtxSPL = new MatrixADT(vars, vars+1);
+            mtxSPL = mtx;
+        };
         switch (subchoice) {
             case 1:
+                SPLGauss mGauss = new SPLGauss(mtxSPL);
+                mGauss.gaussReduction();
                 break;
             case 2:
+                SPLGaussJ mGaussJ = new SPLGaussJ(mtxSPL);
+                mGaussJ.gaussJordanElimination();
                 break;
             case 3:
                 SPLBalikan.displaySolution(SPLBalikan.solve(mtx));
@@ -285,7 +306,6 @@ private static void balikan(int subchoice, MatrixADT mtx, Scanner scanner){
         while(true){
             int choice = -69420;
             int subchoice = -1;
-            int err = 0;
             while(choice < 1 || choice > 7) {
                 if (choice != -69420)
                     System.out.println("\nMasukan Anda salah!\nMasukkan angka pada menu.");
@@ -309,6 +329,7 @@ private static void balikan(int subchoice, MatrixADT mtx, Scanner scanner){
             switch (choice) {
                 case 1: // SPL
                     spl(subchoice, mtx, scanner);
+                    break;
                 case 2: //determinan
                     determinan(subchoice, mtx, scanner);
                     break;

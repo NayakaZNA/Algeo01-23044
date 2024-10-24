@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 public class RegresiUI {
     public static void regresi(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
         subchoice = -1;
-        while(subchoice < 1 || subchoice > 7) {
+        while(subchoice < 0 || subchoice > 2) {
             System.out.println(
             "\n0. Kembali" + 
             "\n1. Regresi Linear Berganda" + 

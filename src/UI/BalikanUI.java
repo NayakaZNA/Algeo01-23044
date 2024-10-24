@@ -40,7 +40,7 @@ public class BalikanUI {
         switch (subchoice) {
             case 1:
                 System.out.println();
-                System.out.println("================== PENYELESAIAN INVESRSE METODE GAUSS JORDAN ==================");
+                System.out.println("================== PENYELESAIAN INVERSE METODE GAUSS JORDAN ==================");
                 inv = InverseGaussJ.inverseGaussJ(mtx);
                 if (inv != null) {
                     inv.printMatrix();

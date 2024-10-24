@@ -37,9 +37,11 @@ public class DeterminanUI{
             System.out.println("Dimensi matriks tidak seusai");
             return;
         }
+        double DET = 0;
         switch (subchoice) {
             case 1:
                 double det = DeterminanReduksi.detRB(mtx);
+                DET = det;
                 System.out.println();
                 System.out.println("================== DETERMINAN METODE REDUKSI BARIS ==================");
                 if (Math.abs(det) < 1e-9) {
@@ -50,6 +52,7 @@ public class DeterminanUI{
                 break;
             case 2:
                 double det2 = DeterminanMK.detMK(mtx);
+                DET = det2;
                 System.out.println();
                 System.out.println("================== DETERMINAN EKSPANSI KOFAKTOR ==================");
                 if (Math.abs(det2) < 1e-9) {
@@ -63,6 +66,8 @@ public class DeterminanUI{
         }
         String saveFile = Main.getSaveFileName(scanner);
          if (saveFile != null) {
+            MatrixADT out = new MatrixADT(new double[][]{{DET}});
+            txtIO.writeTXT(saveFile, out);
          }
     }
 }

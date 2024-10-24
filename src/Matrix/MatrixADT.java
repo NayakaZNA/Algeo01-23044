@@ -1,4 +1,6 @@
+package Matrix;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class MatrixADT {
     public double[][] matrix;
@@ -9,6 +11,12 @@ public class MatrixADT {
         this.nRows = nRows;
         this.nCols = nCols;
         this.matrix = new double[nRows][nCols];
+    }
+
+    public MatrixADT(double[][] contents) {
+        this.nRows = contents.length;
+        this.nCols = contents[0].length;
+        this.matrix = contents;
     }
 
     public int getRows() {
@@ -29,6 +37,7 @@ public class MatrixADT {
 
     public void printMatrix() {
         for (int i = 0; i < nRows; i++) {
+            System.out.print("[ ");
             for (int j = 0; j < nCols; j++) {
                 System.out.printf("%.6f", matrix[i][j]);
 
@@ -36,17 +45,13 @@ public class MatrixADT {
                     System.out.print(" ");
                 }
             }
-            if (i != nRows - 1) {
-                System.out.println();
-            }
+            System.out.println(" ]");
         }
-        System.out.println();
     }
 
-    public void readMatrix(int row, int col) {
+    public int readMatrix(int row, int col, Scanner scan) {
+        scan.useLocale(Locale.US);
         double data;
-        System.out.println("Masukkan Matriks, pisahkan baris dengan newline dan kolom dengan spasi");
-        Scanner scan = new Scanner(System.in);
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 try {
@@ -54,11 +59,11 @@ public class MatrixADT {
                     this.matrix[i][j] = data;
                 } catch (Exception e) {
                     System.out.println("Input tidak valid");
-                    scan.nextLine();
+                    return 1;
                 }
             }
         }
-        scan.close();
+        return 0;
     }
 
     public static MatrixADT matrixMinor(MatrixADT m, int i, int j) {
@@ -84,7 +89,6 @@ public class MatrixADT {
 
         return temp;
     }
-
     public MatrixADT copyMatrix() {
         MatrixADT copyMatrix = new MatrixADT(this.nRows, this.nCols);
         for (int i = 0; i < this.nRows; i++) {
@@ -93,5 +97,47 @@ public class MatrixADT {
             }
         }
         return copyMatrix;
+    }
+    public MatrixADT add(MatrixADT b) {
+        if (this.nCols != b.nCols || this.nRows != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, this.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < this.nCols; j++){
+                res.setElmt(i, j, this.getElmt(i, j) + b.getElmt(i, j));
+            }
+        }
+        return res;
+    }
+    public MatrixADT subtract(MatrixADT b) {
+        if (this.nCols != b.nCols || this.nRows != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, this.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < this.nCols; j++){
+                res.setElmt(i, j, this.getElmt(i, j) - b.getElmt(i, j));
+            }
+        }
+        return res;
+    }
+    public MatrixADT multiply(MatrixADT b) {
+        if (this.nCols != b.nRows) return null;
+        MatrixADT res = new MatrixADT(this.nRows, b.nCols);
+        for (int i = 0; i < this.nRows; i++){
+            for (int j = 0; j < b.nCols; j++){
+                double e = 0;
+                for (int k = 0; k < this.nCols; k++){
+                    e += this.getElmt(i, k) * b.getElmt(k, j);
+                }
+                res.setElmt(i, j, e);
+            }
+        }
+        return res;
+    }
+
+    public MatrixADT inverse(){
+        return InverseGaussJ.inverseGaussJ(this);
+    }
+
+    public double determinant(){
+        return DeterminanReduksi.detRB(this);
     }
 }

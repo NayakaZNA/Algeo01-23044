@@ -1,4 +1,10 @@
 package Matrix;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.BufferedReader;
+
 public class BicubicSplineInterpolation {
     static MatrixADT BSIDefaultCoordinates = new MatrixADT(new double[][]{ {0,0}, {1,0}, {0,1}, {1,1} });
     static MatrixADT BSIDefaultMatrixInverse = bicubicSplineMatrixGenerator(BSIDefaultCoordinates).inverse();
@@ -51,8 +57,9 @@ public class BicubicSplineInterpolation {
         return res;
     }
     public static MatrixADT bicubicSplineCoefs(MatrixADT values){
-        return bicubicSplineMatrixGenerator(BSIDefaultCoordinates).inverse().multiply(values);
+        return BSIDefaultMatrixInverse.multiply(values);
     }
+
     public static MatrixADT bicubicSplineCoefs(MatrixADT coordinates, MatrixADT values){
         return bicubicSplineMatrixGenerator(coordinates).inverse().multiply(values);
     }
@@ -79,7 +86,7 @@ public class BicubicSplineInterpolation {
     }
 
     public static MatrixADT bicubicSplineInterpolation(MatrixADT values, MatrixADT queries){
-        MatrixADT coefs = bicubicSplineCoefs(BSIDefaultCoordinates, values);
+        MatrixADT coefs = bicubicSplineCoefs(values);
         MatrixADT res = new MatrixADT(queries.nRows, 1);
         for (int i = 0; i < res.nRows; i++){
             res.setElmt(i, 0, bicubicEquation(coefs, queries.getElmt(i, 0), queries.getElmt(i, 1)));
@@ -87,12 +94,12 @@ public class BicubicSplineInterpolation {
         return res;
     } 
 
-    public static double bicubicSplineInterpolation(MatrixADT coordinates, MatrixADT values, double x, double y){
-        MatrixADT coefs = BSIDefaultMatrixInverse.multiply(values);
+    public static double bicubicSplineInterpolation(MatrixADT values, double x, double y){
+        MatrixADT coefs = bicubicSplineCoefs(values);
         return bicubicEquation(coefs, x, y);
     }
 
-    public static void printEquation(MatrixADT coefs){
+    public static void printEquation(MatrixADT coefs) {
         System.out.println("Y = " +
         coefs.getElmt(0,0) + " + " +
         coefs.getElmt(1,0) + " X + " + 
@@ -111,5 +118,26 @@ public class BicubicSplineInterpolation {
         coefs.getElmt(14,0) + " X^2Y^3 + " +
         coefs.getElmt(15,0) + " X^3Y^3" 
         );
+    }
+
+    public static String toString(MatrixADT values, MatrixADT coefs){
+            return
+            "Y = " +
+            Double.toString(coefs.getElmt(0,0)) + " + " +
+            Double.toString(coefs.getElmt(1,0)) + " X + " + 
+            Double.toString(coefs.getElmt(2,0)) + " X^2 + " + 
+            Double.toString(coefs.getElmt(3,0)) + " X^3 + " +
+            Double.toString(coefs.getElmt(4,0)) + " Y + " +
+            Double.toString(coefs.getElmt(5,0)) + " XY + " +
+            Double.toString(coefs.getElmt(6,0)) + " XY^2 + " +
+            Double.toString(coefs.getElmt(7,0)) + " XY^3 + " +
+            Double.toString(coefs.getElmt(8,0)) + " Y^2 + " +
+            Double.toString(coefs.getElmt(9,0)) + " XY^2 + " +
+            Double.toString(coefs.getElmt(10,0)) + " X^2Y^2 + " +
+            Double.toString(coefs.getElmt(11,0)) + " X^3Y^2 + " +
+            Double.toString(coefs.getElmt(12,0)) + " Y^3 + " +
+            Double.toString(coefs.getElmt(13,0)) + " XY^3 + " +
+            Double.toString(coefs.getElmt(14,0)) + " X^2Y^3 + " +
+            Double.toString(coefs.getElmt(15,0)) + " X^3Y^3";
     }
 }

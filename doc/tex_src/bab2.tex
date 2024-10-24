@@ -1,0 +1,521 @@
+\section{Teori Singkat}
+\subsection{Sistem Persamaan Linear}
+Sistem persamaan linear (SPL) adalah kumpulan persamaan linear yang melibatkan peubah-peubah yang sama, misalnya sebagai berikut:
+
+\[\begin{cases}
+    a_{11}x_{1} + a_{12}x_{2} + a_{13}x_{3} + \ldots + a_{1n}x_{n} &= b_1 \\ 
+    a_{21}x_{1} + a_{22}x_{2} + a_{23}x_{3} + \ldots + a_{2n}x_{n} &= b_2 \\
+    \ldots \\
+    a_{n1}x_{1} + a_{n2}x_{2} + a_{n3}x_{3} + \ldots + a_{nn}x_{n} &= b_n
+\end{cases}\]
+
+yang terdiri atas $n$ persamaan dengan $n$ buah peubah ($x_{i}$ untuk $i \in [1, n]$). Persamaan tersebut dapat dinyatakan kembali dalam bentuk perkalian matriks (kiri) atau, lebih sederhana lagi, dalam wujud matriks \textit{augmented} (kanan):
+
+\begin{equation*}    
+    \begin{bmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} 
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}
+        x_1\\
+        x_2\\
+        \vdots\\
+        x_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        b_1\\
+        b_2\\
+        \vdots\\
+        b_n
+    \end{bmatrix}
+    \qquad \longrightarrow \qquad
+    \left[\begin{array}{@{}cccc|c@{}}
+        a_{11} & a_{12} & \ldots & a_{1n} & b_1    \\
+        a_{21} & a_{22} & \ldots & a_{2n} & b_2    \\
+        \vdots & \vdots & \ddots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} & b_n 
+    \end{array}\right]
+\end{equation*}
+
+Bentuk ini lebih mudah dimanipulasi untuk mendapatkan solusi dari SPL-nya dengan metode-metode yang akan kita bahas di subbab selanjutnya. Pada matriks \textit{augmented}, ada tiga macam operasi baris elementer (OBE) yang dapat diberlakukan:
+
+\begin{enumerate}
+    \item Mengalikan suatu baris dengan konstanta tidak nol;
+    \item Menukarkan dua baris; dan
+    \item Menjumlahkan salah satu baris dengan kelipatan dari baris lainnya.
+\end{enumerate}
+
+Secara umum, ada tiga kemungkinan solusi dari sebuah SPL: solusi unik/tunggal, tak berhingga, atau tidak ada solusi. 
+
+\subsection{Eliminasi Gauss}
+
+Metode eliminasi Gauss adalah metode untuk menyelesaikan SPL dengan cara menerapkan operasi baris elementer pada matriks \textit{augmented} dari suatu SPL. Tujuan utamanya adalah membuat koefisien peubah pada posisi tertentu menjadi 1 dan mengeliminasi peubah lainnya di bawahnya, sedemikian sehingga terbentuk matriks segitiga atas (\textit{upper triangular matrix}), di mana semua elemen di bawah diagonal utama adalah nol. Selanjutnya, dilakukan penyulihan mundur untuk mendapatkan nilai dari tiap peubah. 
+
+Sebagai ilustrasi, diberikan SPL dalam bentuk matriks \textit{augmented} (kiri), kita dapat melakukan OBE hingga didapatkan matriks segitiga atas (kanan),
+
+\[
+    \begin{bmatrix}
+        7 & 1 & 5 & \aug & 27 \\
+        4 & 3 & 5 & \aug & 21 \\
+        6 & 1 & 2 & \aug & 9 
+    \end{bmatrix}
+    \stackrel{OBE}{\longrightarrow}
+    \begin{bmatrix}
+        1 & 0 & \dfrac{10}{209}  & \text{\huge $\aug$} & \dfrac{60}{209}     \\
+        0 & 1 & \dfrac{335}{209} & \text{\huge $\aug$} & \dfrac{1389}{209}   \\
+        0 & 0 & 1 & \aug & 6
+    \end{bmatrix}.
+\]
+
+Dari sini didapatkan $x_3 = 6$. Melakukan penyulihan mundur memberikan kita $x_1 = 0$ dan $x_2 = -3$. Untuk $n$ yang cukup besar, banyaknya operasi yang dibutuhkan kurang lebih sebanyak $n^3/3$.
+
+\subsection{Eliminasi Gauss-Jordan}
+
+Eliminasi Gauss-Jordan sebenarnya hanyalah kelanjutan dari eliminasi Gauss. Ketimbang membiarkannya dalam bentuk matriks eselon dan melakukan penyulihan mundur secara manual ke dalam SPL, kita dapat melakukannya dengan OBE hingga didapatkan matriks eselon tereduksi. Misalnya, untuk matriks pada bagian sebelumnya, kita dapatkan
+
+\[
+    \begin{bmatrix}
+        1 & 0 & \dfrac{10}{209}  & \text{\huge $\aug$} & \dfrac{60}{209}     \\
+        0 & 1 & \dfrac{335}{209} & \text{\huge $\aug$} & \dfrac{1389}{209}   \\
+        0 & 0 & 1 & \text{\huge $\aug$} & 6
+    \end{bmatrix}
+    \text{\large $\begin{array}{c}
+        \stackrel{R1 - 10R3/209}{\longrightarrow} \\
+        \stackrel{R2 - 335R3/209}{\longrightarrow} 
+    \end{array}$}
+    \begin{bmatrix}
+        1 & 0 & 0 & \aug & 0  \\
+        0 & 1 & 0 & \aug & -3 \\
+        0 & 0 & 1 & \aug & 6
+    \end{bmatrix}
+\]
+
+sehingga dapat langsung kita simpulkan $(x_1, x_2, x_3) = (0, -3, 6)$.
+
+\subsection{Matriks Kofaktor}
+Diberikan suatu matriks persegi $A$. Matriks kofaktor $C$ dari $A$ didefinisikan sebagai berikut.
+
+\[ C_{i,j} = (-1)^{i+j} M_{i,j} \]
+
+dengan $M_{i,j}$ adalah minor dari entri $A_{i,j}$, yang setara dengan determinan dari matriks yang didapatkan dengan menghapus baris ke-$i$ dan kolom ke-$j$. Perhatikan contoh berikut sebagai gambaran.
+
+\[ A = \begin{bmatrix}
+    1 & 2 & 3 \\
+    4 & 5 & 6 \\
+    7 & 8 & 9
+\end{bmatrix} \quad \implies \quad 
+M_{2,3} = \det(\begin{bmatrix}
+    1 & 2 & \qedsymbol \\
+    \qedsymbol & \qedsymbol & \qedsymbol \\
+    7 & 8 & \qedsymbol 
+\end{bmatrix}) = 
+    \begin{vmatrix}
+        1 & 2 \\
+        7 & 8 
+    \end{vmatrix}
+    = -6 \]
+
+Akibat ekspresi $(-1)^{i+j}$, tanda dari minor entri $A_{i, j}$ dapat dinyatakan dalam matriks "papan catur" berikut.
+
+\[ \begin{bmatrix}
+    + & - & + & \ldots \\
+    - & + & - & \ldots \\
+    + & - & + & \ldots \\
+    \vdots & \vdots & \vdots & \ddots 
+\end{bmatrix}\]
+
+\subsection{Matriks Adjoin}
+Matriks \textit{adjoin} pada dasarnya hanyalah transpos dari matriks kofaktor. Matriks ini nantinya berguna dalam perhitungan determinan.
+\[\mathrm{adj}(A) = C_A^T. \]
+
+\subsection{Determinan}
+    Determinan pada dasarnya hanyalah suatu bilangan, tetapi mempunyai makna yang besar dalam aljabar linear. Determinan dapat menentukan keberadaan dari balikan suatu matriks. Jika $\det(M) = 0$ maka kita katakan $M$ adalah matriks yang \textit{singular} dan \textbf{tidak} mempunyai balikan. Sebaliknya, jika $\det(M) \neq 0$ maka $M$ mempunyai balikan.
+
+    Untuk matriks $M$ berukuran $2 \times 2$, determinannya dapat dihitung sebagai berikut:
+
+    \[
+        \det(M) = 
+        \begin{vmatrix}
+            m_{11} & m_{12} \\
+            m_{21} & m_{22}
+        \end{vmatrix}
+        =
+        m_{11} m_{22} - m_{12} m_{21}
+    \]
+
+    Secara umum, ada setidaknya dua metode yang dapat digunakan untuk menghitung determinan dari suatu matriks, yakni metode ekspansi kofaktor Laplace dan metode reduksi baris.
+
+    \subsubsection{Metode Ekspansi Kofaktor Laplace}
+    Metode ekspansi kofaktor Laplace, seperti namanya, didasari atas matriks kofaktor. Langkah pertamanya adalah menentukan baris atau kolom untuk dijadikan \textit{pivot}, kemudian menjumlahkan perkalian antara entri dengan kofaktor dari baris atau kolom tersebut. Umumnya, baris atau kolom yang banyak mengandung nol dipilih sebagai \textit{pivot} karena dapat menyederhanakan perhitungan. Perhatikan contoh berikut dengan baris pertama sebagai \textit{pivot}:
+
+    \[\begin{vmatrix}
+        a & b & c \\    
+        d & e & f \\
+        g & h & i 
+      \end{vmatrix} = 
+      a \begin{vmatrix}
+          e & f \\ h & i
+      \end{vmatrix}
+      - b  \begin{vmatrix}
+          d & f \\ g & i
+      \end{vmatrix}
+      + c \begin{vmatrix}
+          d & e \\ g & h
+      \end{vmatrix}
+      = \ldots
+    \]
+
+    \subsubsection{Metode Reduksi Baris}
+        Metode ini didasari atas metode ekspansi kofaktor Laplace dan beberapa identitas yang berlaku untuk determinan:
+
+        \begin{enumerate}
+            \item Menukarkan baris atau kolom dari suatu matriks persegi akan mengubah tanda determinannya.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                d & e & f \\
+                a & b & c \\    
+                g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                 b & a & c \\    
+                 e & d & f \\
+                 h & g & i 
+            \end{vmatrix} 
+            =
+            -\det(M)
+            \]
+            
+            \item Mengalikan satu baris atau kolom matriks persegi dengan suatu konstanta akan mengalikan determinannya dengan konstanta tersebut.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                2\cdot a & b & c \\    
+                2\cdot d & e & f \\
+                2\cdot g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                a & b & c \\    
+                2\cdot d & 2\cdot e & 2\cdot f \\
+                g & h & i 
+            \end{vmatrix} 
+            =
+            2\det(M)
+            \]
+
+            \item Menjumlahkan satu baris dengan kelipatan dari baris lainnya (berlaku untuk kolom juga) tidak mengubah nilai determinannya.
+            \[\det(M) = 
+            \begin{vmatrix}
+                a & b & c \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            \implies
+            \begin{vmatrix}
+                a + 3d & b + 3e & c + 3f \\    
+                d & e & f \\
+                g & h & i 
+            \end{vmatrix} 
+            = 
+            \begin{vmatrix}
+                a + 5c & b & c \\    
+                d + 5f & e & f \\
+                g + 5i & h & i 
+            \end{vmatrix} 
+            =
+            \det(M)
+            \]
+        \end{enumerate}
+
+        Metode reduksi baris melibatkan operasi baris dan kolom elementer untuk mendapatkan matriks segitiga atas.
+
+        \[ 
+            \det(M) = 
+            \begin{vmatrix}
+                a_{11} & a_{12} & \ldots & a_{1n} \\    
+                a_{21} & a_{22} & \ldots & a_{2n} \\
+                \vdots & \vdots & \ddots & \vdots \\
+                a_{n1} & a_{n2} & \ldots & a_{nn} 
+            \end{vmatrix} 
+            \stackrel{OBE/OKE}{\longrightarrow}
+            \begin{vmatrix}
+                a_{11}' & a_{12}'   & \ldots & a_{1n}'   \\    
+                0       & a_{22}'   & \ldots & a_{2n}'   \\
+                \vdots  & \vdots    & \ddots & \vdots    \\
+                0       & 0         & \ldots & a_{3n}' 
+            \end{vmatrix} 
+        \]
+
+        Dengan demikian, kita pada dasarnya bisa menerapkan metode ekspansi kofaktor Laplace pada kolom $1$. Akibatnya, determinannya kemudian dapat dihitung dengan persamaan berikut:
+
+        \[
+            \det(M) = \frac{(-1)^p a_{11}' \cdot a_{22}' \cdot \ldots \cdot a_{nn}'}{k_1 k_2 \ldots k_n}
+        \]
+
+        di mana $p$ adalah banyaknya operasi pertukaran baris dan $k_1, k_2, \ldots, k_n$ adalah konstanta-konstanta yang dikalikan pada baris atau kolom.
+        
+    
+\subsection{Matriks Balikan}
+Balikan atau invers dari suatu matriks $A$ adalah invers perkalian (\textit{multiplicative inverse}) dari matriks tersebut, sehingga memenuhi hubu-\linebreak ngan
+\[ A \cdot A^{-1} = I. \]
+Matriks balikan dapat dihitung dengan menerapkan metode Gauss-Jordan pada matriks \textit{augmented}
+
+\[ \left[A | I\right] \quad \to \quad \left[I | A^{-1}\right] \]
+
+atau menggunakan formula
+
+\[ A^{-1} = \frac{1}{\det(A)} \mathrm{adj}(A) \]
+
+\subsection{Kaidah Cramer} 
+
+Kaidah Cramer adalah kaidah untuk menyelesaikan SPL dengan melibatkan perhitungan determinan matriks koefisien dan determinan dari matriks yang didapatkan dengan mengganti salah satu kolom matriks koefisien dengan matriks yang berada di ruas kanan. Diberikan persamaan matriks $A \textbf{x} = \textbf{b}$ sebagai berikut,
+
+\[
+    \begin{bmatrix}
+        a_{11} & a_{12} & \ldots & a_{1n} \\
+        a_{21} & a_{22} & \ldots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{n1} & a_{n2} & \ldots & a_{nn} 
+    \end{bmatrix} \cdot 
+    \begin{bmatrix}
+        x_1\\
+        x_2\\
+        \vdots\\
+        x_n
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+        b_1\\
+        b_2\\
+        \vdots\\
+        b_n
+    \end{bmatrix},
+\]
+
+solusinya adalah
+
+% \[ x_1 = \frac{
+%             \begin{vmatrix}
+%                 b_{1} & a_{12} & \ldots & a_{1n} \\    
+%                 b_{2} & a_{22} & \ldots & a_{2n} \\
+%                 \vdots & \vdots& \ddots & \vdots \\
+%                 b_{n} & a_{n2} & \ldots & a_{nn} 
+%             \end{vmatrix} 
+% }{
+%             \begin{vmatrix}
+%                 a_{11} & a_{12} & \ldots & a_{1n} \\    
+%                 a_{21} & a_{22} & \ldots & a_{2n} \\
+%                 \vdots & \vdots & \ddots & \vdots \\
+%                 a_{n1} & a_{n2} & \ldots & a_{nn} 
+%             \end{vmatrix} 
+% }, \quad
+% x_2 = \frac{
+%             \begin{vmatrix}
+%                 a_{11} & b_{1}  & \ldots & a_{1n} \\    
+%                 a_{21} & b_{2}  & \ldots & a_{2n} \\
+%                 \vdots & \vdots & \ddots & \vdots \\
+%                 a_{n1} & b_{n}  & \ldots & a_{nn} 
+%             \end{vmatrix} 
+% }{
+%             \begin{vmatrix}
+%                 a_{11} & a_{12} & \ldots & a_{1n} \\    
+%                 a_{21} & a_{22} & \ldots & a_{2n} \\
+%                 \vdots & \vdots & \ddots & \vdots \\
+%                 a_{n1} & a_{n2} & \ldots & a_{nn} 
+%             \end{vmatrix} 
+% }, \quad \ldots, \quad x_n = \frac{
+%             \begin{vmatrix}
+%                 a_{11} & a_{12}  & \ldots & b_{1} \\    
+%                 a_{21} & a_{22}  & \ldots & b_{2} \\
+%                 \vdots & \vdots  & \ddots & \vdots \\
+%                 a_{n1} & a_{n2}  & \ldots & b_{n} 
+%             \end{vmatrix} 
+% }{
+%             \begin{vmatrix}
+%                 a_{11} & a_{12} & \ldots & a_{1n} \\    
+%                 a_{21} & a_{22} & \ldots & a_{2n} \\
+%                 \vdots & \vdots & \ddots & \vdots \\
+%                 a_{n1} & a_{n2} & \ldots & a_{nn} 
+%             \end{vmatrix} 
+% }
+% \]
+
+% atau, secara umum,
+
+\[ x_i = \frac{\det(A_i)}{\det(A)} \]
+
+dengan $A_i$ adalah matriks $A$ yang kolom ke-$i$-nya diganti dengan matriks kolom $\textbf{y}$. Dengan metode yang naif ini, kurang lebih sekitar $n^4$ operasi dibutuhkan. Dengan demikian, metode Cramer lebih boros dibandingkan metode eliminasi Gauss sehingga cenderung digunakan untuk $n$ yang kecil saja.
+
+\subsection{Interpolasi Polinom}
+
+Interpolasi adalah metode numerik untuk menentukan suatu fungsi yang melalui sejumlah titik yang diberikan. Lebih lanjut lagi, \textit{interpolasi polinom} adalah bentuk spesifik dari interpolasi, di mana fungsinya berupa fungsi polinom dengan bentuk umum
+
+\[ f(x) = a_0 + a_1 x + a_2 x^2 + \ldots + a_n x^n. \]
+
+Dengan mensubstitusikan nilai $(x_i, y_i)$ dari titik yang kita punya akan didapatkan suatu SPL:
+
+\begin{align*}
+    \begin{array}{rl}
+    a_0 + a_1 x_1 + a_2 x_1^2 + \ldots + a_n x_1^n &= y_1 \\
+    a_0 + a_1 x_2 + a_2 x_2^2 + \ldots + a_n x_2^n &= y_2 \\
+    \ldots \\
+    a_0 + a_1 x_n + a_2 x_n^2 + \ldots + a_n x_n^n &= y_n
+    \end{array} \longrightarrow
+    \left[\begin{array}{@{}ccccc|c@{}}
+1       & x_1 & x_1^2   & \ldots & x_1^n  & y_1         \\
+1       & x_2 & x_2^2   & \ldots & x_2^n  & y_2         \\
+\vdots  & \vdots        & \ddots & \vdots & \vdots      \\
+1       & x_n           & x_n^2  & \ldots & x_n^n & y_n 
+\end{array}\right]
+\end{align*}
+
+$a_0, a_1, a_2, \ldots, a_n$ akan didapatkan dengan menyelesaikan SPL di atas. Matriks koefisien dari SPL ini disebut matriks Vandermonde.
+
+\subsection{Interpolasi \textit{Bicubic Spline}}
+Pada interpolasi polinom, kita bisa membentuk polinom derajat-$n$ dari $n+1$ titik yang diketahui. Akan tetapi, untuk $n$ yang besar, polinom yang terbentuk akan menghasilkan osilasi meskipun kurva aslinya justru mulus. Berangkat dari hal ini, kita bisa mengambil subset dari titik-titik yang ada dan menerapkan interpolasi secara sepotong (\textit{piecewise}) dengan polinom berderajat lebih rendah. Kurva sepotong yang dihasilkan ini disebut \textit{spline}, sementara jika polinomnya berderajat tiga, akan didapatkan interpolasi \textit{cubic spline}. Jika ide ini dikembangkan ke $\mathbb{R}^3$, didapatkan interpolasi \textit{bicubic spline}\footnote{Pada kasus ini berarti kita bukan lagi memprediksi persamaan garis, melainkan persamaan permukaan.}.
+
+Pada interpolasi \textit{bicubic spline}, kita membutuhkan $16$ buah titik, dengan $4$ titik di grid pusat sebagai referensi utama dan $12$ titik sisanya untuk mengaproksimasi turunan berarahnya. Secara umum, interpolasi \textit{bicubic spline} memodelkan fungsi objektif sebagai $\displaystyle f(x, y) = \sum_{j = 0}^3 \sum_{i = 0}^3 a_{ij}x^iy^j$ sehingga didapatkan sistem persamaan berikut,
+
+\[ f_x(x, y)  = \sum_{j = 0}^3 \sum_{i = 0}^3 a_{ij}ix^{i-1}y^j \qquad
+   f_y(x, y)  = \sum_{j = 0}^3 \sum_{i = 0}^3 a_{ij}jx^iy^{j-1} \qquad
+   f_{xy}(x, y) = \sum_{j = 0}^3 \sum_{i = 0}^3 a_{ij}ijx^{i-1}y^{j-1} \]
+
+Dengan mensubstitusikan titik-titik $(0, 0)$, $(1, 0)$, $(0, 1)$, dan $(1, 1)$, akan didapatkan SPL yang dapat direpresentasikan dalam persamaan matriks $\boldsymbol{y} = A \boldsymbol{x}$ berikut:
+
+\setcounter{MaxMatrixCols}{16}
+\[\begin{bmatrix}
+    f(0, 0)\\
+    f(1, 0)\\
+    f(0, 1)\\
+    f(1, 1)\\
+    f_x(0, 0)\\
+    f_x(1, 0)\\
+    f_x(0, 1)\\
+    f_x(1, 1)\\
+    f_y(0, 0)\\
+    f_y(1, 0)\\
+    f_y(0, 1)\\
+    f_y(1, 1)\\
+    f_{xy}(0, 0)\\
+    f_{xy}(1, 0)\\
+    f_{xy}(0, 1)\\
+    f_{xy}(1, 1)
+\end{bmatrix} = 
+\begin{bmatrix}
+    1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 \\
+    1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+    0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    0 & 1 & 2 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+    0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 \\ 
+    0 & 1 & 2 & 3 & 0 & 1 & 2 & 3 & 0 & 1 & 2 & 3 & 0 & 1 & 2 & 3 \\ 
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+    0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+    0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 3 & 0 & 0 & 0 \\ 
+    0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 2 & 2 & 2 & 2 & 3 & 3 & 3 & 3 \\ 
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+    0 & 0 & 0 & 0 & 0 & 1 & 2 & 3 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\ 
+    0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 2 & 0 & 0 & 0 & 3 & 0 & 0 \\
+    0 & 0 & 0 & 0 & 0 & 1 & 2 & 3 & 0 & 2 & 4 & 6 & 0 & 3 & 6 & 9
+\end{bmatrix} \begin{bmatrix}
+    a_{00} \\
+    a_{10} \\
+    a_{20} \\
+    a_{30} \\
+    a_{01} \\
+    a_{11} \\
+    a_{21} \\
+    a_{31} \\
+    a_{02} \\
+    a_{12} \\
+    a_{22} \\
+    a_{32} \\
+    a_{03} \\
+    a_{13} \\
+    a_{23} \\
+    a_{33}
+\end{bmatrix}\]
+
+\subsection{Regresi Linear Berganda}
+
+Berbeda dengan regresi linear biasa, regresi linear berganda melibatkan lebih dari satu peubah (akibatnya, "berganda"). Untuk data dengan $n$ peubah $x_1, x_2, \ldots, x_n$, persamaan umum regresi linear berganda yang berlaku adalah
+
+\[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \ldots + \beta_n x_n + \varepsilon_i \]
+
+dengan $\varepsilon_i$ adalah galat dari $y_i$ dengan $y(x_i)$, yang dapat kita tuliskan sebagai
+
+\[ \varepsilon_i = (y_i - \beta_0 - \beta_1 x_{1,i} - \beta_2 x_{2,i} - \ldots - \beta_n x_{n,i}) \]
+
+sehingga jumlah kuadrat dari $\varepsilon_i$ adalah
+
+\[ S_\varepsilon = \sum_{i = 1}^n (y_i - \beta_0 - \beta_1 x_{1,i} - \beta_2 x_{2,i} - \ldots - \beta_n x_{n,i})^2. \]
+
+Menurunkan terhadap tiap peubah dan mengaturnya menjadi sama dengan nol akan memberikan SPL berikut:
+
+\[\begin{bmatrix}\displaystyle
+    n & \sum_{i=1}^n x_{1,i} & \sum_{i=1}^n x_{2,i} & \ldots & \sum_{i=1}^n x_{n,i}  \\
+    \sum_{i=1}^n x_{1,i} & \sum_{i=1}^n x_{2,i} & \sum_{i=1}^n x_{1,i}x_{2,i} & \ldots & \sum_{i=1}^n x_{1,i}x_{n,i} \\
+    \vdots & \vdots & \vdots & \ddots & \vdots \\
+     \sum_{i=1}^n x_{1,i} & \sum_{i=1}^n x_{2,i} & \sum_{i=1}^n x_{1,i}x_{2,i} & \ldots & \sum_{i=1}^n x_{1,i}x_{n,i} 
+\end{bmatrix} \cdot \begin{bmatrix}
+    \beta_0 \\
+    \beta_1 \\
+    \beta_2 \\
+    \vdots \\
+    \beta_n 
+\end{bmatrix} = \begin{bmatrix}
+    \sum_{i=1}^n y_i\\
+    \sum_{i=1}^n x_{1,i}y_i \\
+    \vdots \\
+    \sum_{i=1}^n x_{n,i}y_i
+\end{bmatrix}.\]
+
+Dengan demikian, persoalan regresi linear berganda direduksi dengan menyelesaikan SPL di atas untuk mendapatkan $\beta_i$ dan menyusun persamaan garisnya.
+
+\subsection{Regresi Kuadratik Berganda}
+Analog dengan regresi linear berganda, regresi kuadratik berganda adalah regresi kuadratik yang melibatkan lebih dari satu peubah. Tidak hanya peubah independen berpangkat satu dan dua, tapi kita juga akan berurusan dengan peubah "interaksi", yakni perkalian antara dua peubah. Sebagai contoh, untuk $n = 2$, regresi kuadratik berganda menghasilkan model yang dapat dinyatakan dalam persamaan
+
+\[ y = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \beta_{3} x_1 x_2 + \beta_{4} x_1^2 + \beta_{5} x_2^2 + \varepsilon_2 \]
+
+dan dengan penalaran yang sama seperti pada regresi linear berganda, kita bisa dapatkan SPL berikut (contoh untuk $n = 2$):
+
+\[\begin{bmatrix}
+    N & \sum x_{1,i} & \sum x_{2, i} & \sum x_{1,i}^2 & \sum x_{1,i} x_{2,i} & \sum x_{2,i}^2 \\
+    \sum x_{1,i} & \sum x_{1, i}^2 & \sum x_{1,i} x_{2, i} & \sum x_{1,i}^3 & \sum x_{1,i}^2 x_{2,i} & \sum x_{1,i} x_{2,i}^2 \\
+    \sum x_{2,i} & \sum x_{1, i} x_{2, i} & \sum x_{2,i}^2 & \sum x_{1,i}^2 x_{2,i} & \sum x_{1,i} x_{2,i}^2 & \sum x_{2,i}^3 \\
+    \sum x_{1,i}^2 & \sum x_{1, i}^3 & \sum x_{1,i}^2 x_{2, i} & \sum x_{1,i}^4 & \sum x_{1,i}^3 x_{2,i} & \sum x_{1,i}^2x_{2,i}^2 \\
+    \sum x_{1,i} x^2_{2, i} & \sum x_{1, i}^2x_{2, i} & \sum x_{1,i} x_{2, i}^2 & \sum x_{1,i}^3 x_{2, i} & \sum x_{1,i}^2 x_{2,i}^2 & \sum x_{1,i}x_{2,i}^3 \\
+    \sum x_{2,i}^2 & \sum x_{1, i} x_{2, i}^2 & \sum x_{2,i}^3 & \sum x_{1,i}^2 x_{2,i}^2 & \sum x_{1,i} x_{2,i}^3 & \sum x_{2,i}^4 \\
+\end{bmatrix} \cdot \begin{bmatrix}
+    \beta_0 \\
+    \beta_1 \\
+    \beta_2 \\
+    \beta_3 \\
+    \beta_4 \\
+    \beta_5
+\end{bmatrix} = \begin{bmatrix}
+    \sum y_i \\
+    \sum y_i x_{1, i}\\
+    \sum y_i x_{2, i}\\
+    \sum y_i x_{1, i}^2\\
+    \sum y_i x_{1, i} x_{2, i} \\
+    \sum y_i x_{2, i}^2
+\end{bmatrix}\]
+
+\pagebreak

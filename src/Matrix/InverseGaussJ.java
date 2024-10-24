@@ -1,20 +1,24 @@
 package Matrix;
 public class InverseGaussJ {
     public static MatrixADT inverseGaussJ(MatrixADT m) {
+
+        // Melakukan OBE menjadi matriks identitas
         MatrixADT temp = OBEGaussJ(convertMatrix(m));
         if (temp == null) {
             return null;
         } else {
+            // Memasukkan matriks inverse
             MatrixADT res = new MatrixADT(m.nRows, m.nCols);
             for (int i = 0; i < m.nRows; i++) {
                 for (int j = 0; j < m.nCols; j++) {
-                    res.matrix[i][j] = temp.matrix[i][m.nCols + j]; // Correct index access
+                    res.matrix[i][j] = temp.matrix[i][m.nCols + j];
                 }
             }
             return res;
         }
     }
 
+    // Membuat matriks augmented dengan matriks identitas
     private static MatrixADT convertMatrix(MatrixADT m) {
         MatrixADT temp = new MatrixADT(m.nRows, m.nCols * 2);
         for (int i = 0; i < m.nRows; i++) {
@@ -35,6 +39,7 @@ public class InverseGaussJ {
     }
 
     private static MatrixADT OBEGaussJ(MatrixADT m) {
+        // Mencari leading one
         for (int i = 0; i < m.nRows; i++) {
             if (m.matrix[i][i] == 0) {
                 boolean swapped = false;
@@ -45,6 +50,7 @@ public class InverseGaussJ {
                         break;
                     }
                 }
+                // Jika tidak ada leading one
                 if (!swapped) {
                     return null;
                 }
@@ -55,6 +61,7 @@ public class InverseGaussJ {
                 m.matrix[i][j] /= pivot;
             }
 
+            // Menjadikan 0 pada kolom yang memiliki leading one
             for (int j = 0; j < m.nRows; j++) {
                 if (j != i) {
                     double factor = m.matrix[j][i];

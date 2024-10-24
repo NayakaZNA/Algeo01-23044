@@ -2,7 +2,7 @@ package Matrix;
 import java.util.Arrays;
 public class SPLGaussJ {
     private MatrixADT matrix;
-    private static final double EPSILON = 1e-9; // Threshold to treat very small values as 0
+    private static final double EPSILON = 1e-9; // Menangani nilai sangat kecil
 
     public SPLGaussJ(MatrixADT matrix) {
         this.matrix = matrix;
@@ -15,7 +15,7 @@ public class SPLGaussJ {
         int lead = 0;
         for (int r = 0; r < rows; r++) {
             if (lead >= cols) {
-                break;  // Prevent accessing out-of-bounds columns
+                break;  // Menangani out of bounds
             }
 
             int i = r;
@@ -25,43 +25,41 @@ public class SPLGaussJ {
                     i = r;
                     lead++;
                     if (lead == cols) {
-                        break;  // Prevent accessing out-of-bounds columns
+                        break;  // Menangani out of bounds
                     }
                 }
             }
 
-            // Swap rows if necessary to bring the pivot row
+            // Mencari leading one
             if (lead < cols && Math.abs(matrix.matrix[i][lead]) >= EPSILON) {
                 swapRows(i, r);
 
-                // Normalize the pivot row (make the leading coefficient 1)
+                // Menjadikan leading one bernilai 1
                 double pivotValue = matrix.matrix[r][lead];
                 if (Math.abs(pivotValue) > EPSILON) {
                     for (int j = 0; j < cols; j++) {
                         matrix.matrix[r][j] /= pivotValue;
-                        // Round the result to avoid floating-point errors
+                        // Pembulatan agar hasil lebih baik
                         matrix.matrix[r][j] = round(matrix.matrix[r][j]);
                     }
                 }
 
-                // Eliminate other rows
+                // Eliminasi baris
                 for (int i2 = 0; i2 < rows; i2++) {
                     if (i2 != r) {
                         double factor = matrix.matrix[i2][lead];
                         for (int j = 0; j < cols; j++) {
                             matrix.matrix[i2][j] -= factor * matrix.matrix[r][j];
-                            // Round the result to avoid floating-point errors
+                            // Pembulatan agar hasil lebih baik
                             matrix.matrix[i2][j] = round(matrix.matrix[i2][j]);
                         }
                     }
                 }
             }
 
-            // Increment the lead column
             lead++;
         }
-        // Now call detectSolution to analyze the matrix
-//        System.out.println("detectSolution called");
+//        System.out.println("detectSolution");
        detectSolution();
     }
 
@@ -72,7 +70,6 @@ public class SPLGaussJ {
         matrix.matrix[row2] = temp;
     }
 
-    // Rounding function to handle small floating-point inaccuracies
     private double round(double value) {
         return Math.abs(value) < EPSILON ? 0 : value;
     }
@@ -82,8 +79,9 @@ public class SPLGaussJ {
         int cols = matrix.nCols;
         boolean noSolution = false;
         boolean parametricSolution = false;
-        // System.out.println("detectSolution called");
-        // Check for inconsistency (no solution)
+        // System.out.println("detectSolution");
+
+        // Cek tidak ada solusi
         for (int i = 0; i < rows; i++) {
             boolean allZeroes = true;
             for (int j = 0; j < cols - 1; j++) {
@@ -99,11 +97,11 @@ public class SPLGaussJ {
         }
 
         if (noSolution) {
-            System.out.println("No Solution");
+            System.out.println("SPL tidak memiliki solusi");
         } else {
-            // Check for parametric solutions (free variables)
+            // Cek solusi parametrik
             boolean[] isPivotColumn = new boolean[cols - 1];
-            int[] pivotRow = new int[cols - 1]; // Track the row of the pivot in each column
+            int[] pivotRow = new int[cols - 1]; // Kumpulan row pivot
             Arrays.fill(pivotRow, -1);
 
             for (int i = 0; i < rows; i++) {
@@ -125,7 +123,7 @@ public class SPLGaussJ {
             }
 
             if (parametricSolution) {
-                // System.out.println("Parametric solution detected");
+                // System.out.println("Parametric solution");
                 printParametricSolution(isPivotColumn, pivotRow);
             } else {
                 printUniqueSolution(pivotRow);
@@ -150,7 +148,7 @@ public class SPLGaussJ {
         for (int j = 0; j < cols - 1; j++) {
 
             if (isPivotColumn[j]) {
-                // Dependent variable (can be expressed in terms of other variables)
+                // Menyatakan X yang memiliki nilai
                 System.out.printf("X%d = %.6f", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
                 for (int k = j + 1; k < cols - 1; k++) {
                     if (Math.abs(matrix.matrix[pivotRow[j]][k]) > EPSILON) {
@@ -159,7 +157,7 @@ public class SPLGaussJ {
                 }
                 System.out.println();
             } else {
-                // Free variable
+                // Variabel bebas
                 System.out.printf("X%d = a%d\n", j + 1, j + 1);
             }
         }

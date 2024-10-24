@@ -32,16 +32,36 @@ public class InterpolasiPolinom {
         return SPLBalikan.solve(SubstitutePoints(points));
     }
 
-    public static void displaySolution(MatrixADT coefs){
-        System.out.print("Y = " + coefs.getElmt(0, 0) + " ");
-        if (coefs.getRows() > 1){
-            // System.out.print("+ " + coefs.getElmt(1, 0) + "X" + " ");
-            System.out.printf("+ %.3f X ", coefs.getElmt(1, 0));
-            for (int i = 2; i < coefs.getRows(); i++){
-                // System.out.print("+ " + coefs.getElmt(i, 0) + "X^" + i + " ");
-                System.out.printf("+ %.3f X^%d ", coefs.getElmt(i, 0), i);
+    public static void displaySolution(MatrixADT coefs) {
+        double epsilon = 1e-10;
+    
+        double firstCoef = coefs.getElmt(0, 0);
+        if (Math.abs(firstCoef) > epsilon) {
+            System.out.printf("Y = %.5f ", firstCoef);
+        } else {
+            System.out.print("Y = 0.00000 "); 
+        }
+    
+        for (int i = 1; i < coefs.getRows(); i++) {
+            double coef = coefs.getElmt(i, 0);
+            if (Math.abs(coef) > epsilon) { 
+                if (coef < 0) {
+                    System.out.print("- ");
+                } else {
+                    System.out.print("+ ");
+                }
+                if (i == 1) System.out.printf("%.5f X ", Math.abs(coef));
+                else System.out.printf("%.5f X^%d ", Math.abs(coef), i);
             }
         }
-        // System.out.println("\n");
+        System.out.println();
+    }
+
+    public static double predict(MatrixADT coefs, double x) {
+        double retval = 0;
+        for (int i = 0; i < coefs.getRows(); i++) {
+            retval += coefs.getElmt(i, 0) * Math.pow(x, i);
+        }
+        return retval;
     }
 }

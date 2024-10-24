@@ -45,7 +45,7 @@ public class SPLCramer {
 
         // Output
         for (int i = 0; i < cols - 1; i++) {
-            System.out.printf("X%d = %.6f\n", i + 1, res[i]);
+            System.out.printf("X%d = %.6f\n", i + 1, res[i][0]);
         }
         return new MatrixADT(res);
     }

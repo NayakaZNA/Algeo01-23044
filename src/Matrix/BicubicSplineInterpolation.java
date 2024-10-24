@@ -57,8 +57,9 @@ public class BicubicSplineInterpolation {
         return res;
     }
     public static MatrixADT bicubicSplineCoefs(MatrixADT values){
-        return bicubicSplineMatrixGenerator(BSIDefaultCoordinates).inverse().multiply(values);
+        return BSIDefaultMatrixInverse.multiply(values);
     }
+
     public static MatrixADT bicubicSplineCoefs(MatrixADT coordinates, MatrixADT values){
         return bicubicSplineMatrixGenerator(coordinates).inverse().multiply(values);
     }
@@ -85,7 +86,7 @@ public class BicubicSplineInterpolation {
     }
 
     public static MatrixADT bicubicSplineInterpolation(MatrixADT values, MatrixADT queries){
-        MatrixADT coefs = bicubicSplineCoefs(BSIDefaultCoordinates, values);
+        MatrixADT coefs = bicubicSplineCoefs(values);
         MatrixADT res = new MatrixADT(queries.nRows, 1);
         for (int i = 0; i < res.nRows; i++){
             res.setElmt(i, 0, bicubicEquation(coefs, queries.getElmt(i, 0), queries.getElmt(i, 1)));
@@ -93,8 +94,8 @@ public class BicubicSplineInterpolation {
         return res;
     } 
 
-    public static double bicubicSplineInterpolation(MatrixADT coordinates, MatrixADT values, double x, double y){
-        MatrixADT coefs = BSIDefaultMatrixInverse.multiply(values);
+    public static double bicubicSplineInterpolation(MatrixADT values, double x, double y){
+        MatrixADT coefs = bicubicSplineCoefs(values);
         return bicubicEquation(coefs, x, y);
     }
 
@@ -119,8 +120,8 @@ public class BicubicSplineInterpolation {
         );
     }
 
-    public static void safeResult(MatrixADT values, MatrixADT coefs){
-        String eqn =
+    public static String toString(MatrixADT values, MatrixADT coefs){
+            return
             "Y = " +
             Double.toString(coefs.getElmt(0,0)) + " + " +
             Double.toString(coefs.getElmt(1,0)) + " X + " + 

@@ -13,7 +13,6 @@ public class txtIO {
             int i = 0, m = 0, n = 0;
             String line;
             while ((line = br.readLine()) != null) {
-                System.out.println(line);
                 m++;
                 if (m == 1) {
                     n = line.split(" ").length;

@@ -1,9 +1,13 @@
 package UI;
 import java.util.Scanner;
 import Matrix.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.InputMismatchException;
 public class RegresiUI {
-    public static void regresi(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
+    public static void regresi(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner) throws IOException{
         subchoice = -1;
         while(subchoice < 0 || subchoice > 2) {
             System.out.println(
@@ -51,15 +55,32 @@ public class RegresiUI {
                 MatrixADT coefs = Regresi.regresiLinierBerganda(mtx);
                 System.out.println("Persamaan regresi adalah:");
                 Regresi.printLinearSolution(coefs);
+                System.out.println();
+                String saveFile = Main.getSaveFileName(scanner);
+                if (saveFile != null) {
+                    FileWriter wr = new FileWriter(saveFile, false);
+                    wr.write(Regresi.LinearSolution2Str(coefs));
+                    wr.close();
+                }
                 break;
 
             case 2:
                 coefs = Regresi.regresiKuadratikBerganda(mtx);
                 System.out.println("Persamaan regresi adalah:");
                 Regresi.printQuadraticSolution(coefs, vars);
-        
+                System.out.println();
+                saveFile = Main.getSaveFileName(scanner);
+                if (saveFile != null) {
+                    try (FileWriter wr = new FileWriter(saveFile, false)){
+                        wr.write(Regresi.QuadraticSolution2Str(coefs, vars));
+                        wr.close();
+                    } catch (Exception e) {
+                        System.out.println("Gagal :(");
+                    }
+                }
             default:
                 break;
         }
+
     }
 }

@@ -12,6 +12,8 @@ import Matrix.DeterminanReduksi;
 import Matrix.txtIO;
 import Matrix.SPLGauss;
 import Matrix.SPLGaussJ;
+
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -47,7 +49,7 @@ public class Main {
         return saveFileName;
     }
 
-    public static void main(String[] var0) {
+    public static void main(String[] var0) throws IOException {
         Scanner scanner = new Scanner(System.in);
         String filename = null;
         MatrixADT mtx = null;

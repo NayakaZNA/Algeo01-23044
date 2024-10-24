@@ -57,6 +57,15 @@ public class Regresi {
             System.out.printf("+ %.3f X%d ", coefs.getElmt(i, 0), i);
         }
     }
+    public static String LinearSolution2Str(MatrixADT coefs){
+        if (coefs == null) return ("Regresi gagal.");
+        String result = "";
+        result += String.format("Y = %.3f ", coefs.getElmt(0,0));
+        for(int i = 1; i < coefs.getRows(); i++){
+            result += String.format("+ %.3f X%d ", coefs.getElmt(i, 0), i);
+        }
+        return result;
+    }
 
     private static MatrixADT multipleQuadraticEquation(MatrixADT coefs, MatrixADT queries){
         if (coefs == null) return null;
@@ -154,6 +163,28 @@ public class Regresi {
                 }
             }
         }
+    }
+
+    public static String QuadraticSolution2Str(MatrixADT coefs, int nVars){
+        if (coefs == null) {
+            return ("Regresi gagal.");
+        }
+        String res = "";
+        res += String.format("Y = %.3f ", coefs.getElmt(0,0));
+        for(int i=1; i < nVars+1; i++){
+            res += String.format("+ %.3fX%d ", coefs.getElmt(i,0), i);
+        }
+        for (int i = 1; i < nVars+1; i++){
+            for(int j = i; j < nVars+1; j++){
+                int idx = (nVars + 1) * i - (i * (i-1) / 2) + (j-i);
+                if (i != j){
+                    res += String.format(" + %.3fX%dX%d ", coefs.getElmt(idx, 0), i, j);
+                } else {
+                    res += String.format(" + %.3fX%d^2d ", coefs.getElmt(idx, 0), i);
+                }
+            }
+        }
+    return res;
     }
     //     return multipleQuadraticEquation(coefs, queries);
     // } 

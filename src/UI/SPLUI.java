@@ -1,11 +1,13 @@
 package UI;
 import Matrix.*;
 import java.util.Scanner;
+import java.io.FileWriter;
 import java.util.InputMismatchException;
 public class SPLUI {
     public static void spl(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
         subchoice = -1;
         MatrixADT mtxSPL, mtxy, mtxBalikan;
+        String resStr = "";
         while(subchoice < 0 || subchoice > 4) {
             System.out.println(
             "\n0. Kembali" +
@@ -63,30 +65,39 @@ public class SPLUI {
                 System.out.println();
                 System.out.println("================== PENYELESAIAN SPL METODE GAUSS ==================");
                 SPLGauss mGauss = new SPLGauss(mtxSPL);
-                mGauss.gaussReduction();
+                resStr = mGauss.gaussReduction();
                 break;
             case 2:
                 System.out.println();
                 System.out.println("================== PENYELESAIAN SPL METODE GAUSS JORDAN ==================");
                 SPLGaussJ mGaussJ = new SPLGaussJ(mtxSPL);
-                mGaussJ.gaussJordanElimination();
+                resStr = mGaussJ.gaussJordanElimination();
                 break;
             case 3:
                 System.out.println();
                 System.out.println("================== PENYELESAIAN SPL METODE BALIKAN ==================");
-                SPLBalikan.solve(mtxSPL);
+                resStr = SPLBalikan.solve(mtxSPL);
                 // SPLBalikan.displaySolution(SPLBalikan.solve(mtx));
                 // System.out.println("");
                 break;
             case 4:
                 System.out.println();
                 System.out.println("================== PENYELESAIAN SPL METODE CRAMER ==================");
-                SPLCramer.solve(mtxSPL);
+                resStr = SPLCramer.solve(mtxSPL);
                 // SPLBalikan.displaySolution(SPLCramer.solve(mtx));
                 // System.out.println("");
                 break;
             default:
                 break;
         }
+        String saveFile = Main.getSaveFileName(scanner);
+            if (saveFile != null) {
+                try (FileWriter wr = new FileWriter(saveFile, false)){
+                    wr.write(resStr);
+                    wr.close();
+                } catch (Exception e) {
+                    System.out.println("Gagal :(");
+                }
+            }
     }
 }

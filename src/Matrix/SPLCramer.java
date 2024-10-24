@@ -1,13 +1,13 @@
 package Matrix;
 public class SPLCramer {
-    public static MatrixADT solve(MatrixADT m) {
+    public static String solve(MatrixADT m) {
         int rows = m.nRows;
         int cols = m.nCols;
 
         // Melakukan validasi dimensi matriks n x (n+1)
         if (rows != cols - 1) {
             System.out.println("SPL tidak dapat dikerjakan dengan metode ini.");
-            return null;
+            return ("SPL tidak dapat dikerjakan dengan metode ini.");
         }
 
         // Mencari determnian dari matriks koefisien
@@ -24,7 +24,7 @@ public class SPLCramer {
         // Jika det 0, maka solusi tidak dapat ditemukan
         if (detCoefficient == 0) {
             System.out.println("SPL tidak memiliki solusi.");
-            return null;
+            return ("SPL tidak memiliki solusi.");
         }
 
         // Mengganti setiap kolom matriks koefisien untuk mendapatkan hasil
@@ -44,10 +44,12 @@ public class SPLCramer {
         }
 
         // Output
+        String result = "";
         for (int i = 0; i < cols - 1; i++) {
             System.out.printf("X%d = %.6f\n", i + 1, res[i][0]);
+            result += String.format("X%d = %.6f\n", i + 1, res[i][0]);
         }
-        return new MatrixADT(res);
+        return result;
     }
 
     // Mencari determinan

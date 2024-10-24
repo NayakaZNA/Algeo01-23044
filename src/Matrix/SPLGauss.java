@@ -10,7 +10,7 @@ public class SPLGauss {
     }
 
     // Eliminasi Gauss
-    public void gaussReduction() {
+    public String gaussReduction() {
         int rows = matrix.nRows;
         int cols = matrix.nCols;
         int lead = 0;
@@ -58,7 +58,7 @@ public class SPLGauss {
             }
             lead++;
         }
-        detectSolution(); // Deteksi hasil solusi
+        return detectSolution(); // Deteksi hasil solusi
     }
 
     private void swapRows(int row1, int row2) {
@@ -73,7 +73,7 @@ public class SPLGauss {
     }
 
     // Menentukan solusi unik, paramterik, atau tidak ada solusi
-    private void detectSolution() {
+    private String detectSolution() {
         int rows = matrix.nRows;
         int cols = matrix.nCols;
         boolean noSolution = false;
@@ -98,6 +98,7 @@ public class SPLGauss {
 
         if (noSolution) {
             System.out.println("SPL tidak memiliki solusi");
+            return "SPL tidak memiliki solusi";
         } else {
             // Cek jika solusi parametrik
             boolean[] isPivotColumn = new boolean[cols - 1];
@@ -126,16 +127,16 @@ public class SPLGauss {
 
             if (parametricSolution) {
                 // System.out.println("Parametric solution");
-                printParametricSolution(isPivotColumn, pivotRow);
+                return printParametricSolution(isPivotColumn, pivotRow);
             } else {
                 // Jika tidak ada variabel bebas, maka solusi unik
-                printUniqueSolution(pivotRow);
+                return printUniqueSolution(pivotRow);
             }
         }
     }
 
     // Print solusi unik
-    private void printUniqueSolution(int[] pivotRow) {
+    private String printUniqueSolution(int[] pivotRow) {
         int cols = matrix.nCols;
         int rows = matrix.nRows;
         double[] solution = new double[cols - 1];  // Solusi
@@ -161,30 +162,37 @@ public class SPLGauss {
 
         // Print solusi
         // System.out.println("Unique Solution:");
+        String res = "";
         for (int i = 0; i < cols - 1; i++) {
             System.out.printf("X%d = %.6f\n", i + 1, solution[i]);
+            res += String.format("X%d = %.6f\n", i + 1, solution[i]);
         }
+        return res;
     }
 
     // Print solusi parametrik
-    private void printParametricSolution(boolean[] isPivotColumn, int[] pivotRow) {
+    private String printParametricSolution(boolean[] isPivotColumn, int[] pivotRow) {
         int cols = matrix.nCols;
         // System.out.println("Parametric Solution:");
-
+        String res = "";
         for (int j = 0; j < cols - 1; j++) {
             if (isPivotColumn[j]) {
                 // Menyatakan X yang memiliki nilai
                 System.out.printf("X%d = %.6f", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
+                res += String.format("X%d = %.6f", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
                 for (int k = j + 1; k < cols - 1; k++) {
                     if (Math.abs(matrix.matrix[pivotRow[j]][k]) > EPSILON) {
                         System.out.printf(" + %.6fa%d", -matrix.matrix[pivotRow[j]][k], k + 1);
+                        res += String.format(" + %.6fa%d", -matrix.matrix[pivotRow[j]][k], k + 1);
                     }
                 }
                 System.out.println();
             } else {
                 // Menyatakan X yang memiliki variabel bebas
                 System.out.printf("X%d = a%d\n", j + 1, j + 1);
+                res += String.format("X%d = a%d\n", j + 1, j + 1);
             }
         }
+        return res;
     }
 }

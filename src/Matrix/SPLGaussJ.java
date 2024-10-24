@@ -8,7 +8,7 @@ public class SPLGaussJ {
         this.matrix = matrix;
     }
 
-    public void gaussJordanElimination() {
+    public String gaussJordanElimination() {
         int rows = matrix.nRows;
         int cols = matrix.nCols;
 
@@ -60,7 +60,7 @@ public class SPLGaussJ {
             lead++;
         }
 //        System.out.println("detectSolution");
-       detectSolution();
+       return detectSolution();
     }
 
 
@@ -74,11 +74,12 @@ public class SPLGaussJ {
         return Math.abs(value) < EPSILON ? 0 : value;
     }
 
-    private void detectSolution() {
+    private String detectSolution() {
         int rows = matrix.nRows;
         int cols = matrix.nCols;
         boolean noSolution = false;
         boolean parametricSolution = false;
+        String res = "";
         // System.out.println("detectSolution");
 
         // Cek tidak ada solusi
@@ -98,6 +99,7 @@ public class SPLGaussJ {
 
         if (noSolution) {
             System.out.println("SPL tidak memiliki solusi");
+            return ("SPL tidak memiliki solusi");
         } else {
             // Cek solusi parametrik
             boolean[] isPivotColumn = new boolean[cols - 1];
@@ -124,25 +126,29 @@ public class SPLGaussJ {
 
             if (parametricSolution) {
                 // System.out.println("Parametric solution");
-                printParametricSolution(isPivotColumn, pivotRow);
+                return printParametricSolution(isPivotColumn, pivotRow);
             } else {
-                printUniqueSolution(pivotRow);
+                return printUniqueSolution(pivotRow);
             }
         }
     }
 
-    private void printUniqueSolution(int[] pivotRow) {
+    private String printUniqueSolution(int[] pivotRow) {
         int cols = matrix.nCols;
+        String res = "";
         // System.out.println("Unique Solution:");
         for (int j = 0; j < cols - 1; j++) {
             if (pivotRow[j] != -1) {
                 System.out.printf("X%d = %.6f\n", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
+                res += String.format("X%d = %.6f\n", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
             }
         }
+        return res;
     }
 
-    private void printParametricSolution(boolean[] isPivotColumn, int[] pivotRow) {
+    private String printParametricSolution(boolean[] isPivotColumn, int[] pivotRow) {
         int cols = matrix.nCols;
+        String res = "";
         // System.out.println("Parametric Solution:");
 
         for (int j = 0; j < cols - 1; j++) {
@@ -150,17 +156,20 @@ public class SPLGaussJ {
             if (isPivotColumn[j]) {
                 // Menyatakan X yang memiliki nilai
                 System.out.printf("X%d = %.6f", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
+                res += String.format("X%d = %.6f", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
                 for (int k = j + 1; k < cols - 1; k++) {
                     if (Math.abs(matrix.matrix[pivotRow[j]][k]) > EPSILON) {
                         System.out.printf(" + %.6fa%d", -matrix.matrix[pivotRow[j]][k], k + 1);
+                        res += String.format(" + %.6fa%d", -matrix.matrix[pivotRow[j]][k], k + 1);
                     }
                 }
                 System.out.println();
             } else {
                 // Variabel bebas
                 System.out.printf("X%d = a%d\n", j + 1, j + 1);
+                res += String.format("X%d = a%d\n", j + 1, j + 1);
             }
         }
+        return res;
     }
-
 }

@@ -1,10 +1,13 @@
 package UI;
 import java.util.Scanner;
 import Matrix.*;
+
+import java.io.FileWriter;
 import java.util.InputMismatchException;
 
 public class InterpolasiPolinomUI {
     public static void interpolasiPolinom(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
+        String s = "";
         if (mtx == null){
             int points = -1;
             while (true){
@@ -25,9 +28,18 @@ public class InterpolasiPolinomUI {
         if (coefs == null) System.err.println("Tidak ada solusi");
         else {
             System.out.println("Persamaan interpolasi adalah: ");
-            InterpolasiPolinom.displaySolution(coefs);
+            s = InterpolasiPolinom.displaySolution(coefs);
         }
         System.out.println();
+        String saveFile = Main.getSaveFileName(scanner);
+        if (saveFile != null) {
+            try (FileWriter wr = new FileWriter(saveFile, false)){
+                wr.write(s);
+                wr.close();
+            } catch (Exception e) {
+                System.out.println("Gagal :(");
+            }
+        }
         return;
     }
 }

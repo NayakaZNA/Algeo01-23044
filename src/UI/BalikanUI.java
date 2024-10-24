@@ -62,5 +62,9 @@ public class BalikanUI {
                 inv = null;
                 break;
         }
+        String saveFile = Main.getSaveFileName(scanner);
+        if (saveFile != null) {
+           txtIO.writeTXT(saveFile, inv);
+        }
     }
 }

@@ -133,7 +133,7 @@ public class SPLGaussJ {
 
     private void printUniqueSolution(int[] pivotRow) {
         int cols = matrix.nCols;
-        System.out.println("Unique Solution:");
+        // System.out.println("Unique Solution:");
         for (int j = 0; j < cols - 1; j++) {
             if (pivotRow[j] != -1) {
                 System.out.printf("X%d = %.6f\n", j + 1, matrix.matrix[pivotRow[j]][cols - 1]);
@@ -143,7 +143,7 @@ public class SPLGaussJ {
 
     private void printParametricSolution(boolean[] isPivotColumn, int[] pivotRow) {
         int cols = matrix.nCols;
-        System.out.println("Parametric Solution:");
+        // System.out.println("Parametric Solution:");
 
         for (int j = 0; j < cols - 1; j++) {
 

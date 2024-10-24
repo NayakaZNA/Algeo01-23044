@@ -5,8 +5,9 @@ public class SPLBalikan {
         MatrixADT B = new MatrixADT(m.nRows, 1);
         MatrixADT res = new MatrixADT(m.nRows, 1);
 
-        // Melakukan validasi dimensi matriks n x (n+1)
+        
         if (m.nRows != m.nCols - 1) {
+            System.out.println("SPL tidak dapat dikerjakan dengan metode ini.");
             return null;
         }
 
@@ -25,18 +26,16 @@ public class SPLBalikan {
         // Melakukan inverse pada A
         MatrixADT AInverse = A.inverse();
         if (AInverse == null) {
+            System.out.println("SPL tidak memiliki solusi.");
             return null;
         } else {
             // Mencari hasil dengan A x B
             res = AInverse.multiply(B);
+            displaySolution(res);
             return res;
         }
     }
     public static void displaySolution(MatrixADT result) {
-        if (result == null) {
-            System.out.println("Solusi tidak dapat ditentukan");
-            return;
-        }
         for (int i = 0; i < result.nRows; i++) {
             System.out.printf("X" + (i+1) + ": %.6f\n", result.getElmt(i, 0));
         }

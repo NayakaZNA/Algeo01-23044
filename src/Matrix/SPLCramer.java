@@ -6,6 +6,7 @@ public class SPLCramer {
 
         // Melakukan validasi dimensi matriks n x (n+1)
         if (rows != cols - 1) {
+            System.out.println("SPL tidak dapat dikerjakan dengan metode ini.");
             return null;
         }
 
@@ -22,6 +23,7 @@ public class SPLCramer {
 
         // Jika det 0, maka solusi tidak dapat ditemukan
         if (detCoefficient == 0) {
+            System.out.println("SPL tidak memiliki solusi.");
             return null;
         }
 

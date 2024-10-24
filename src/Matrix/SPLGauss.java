@@ -13,7 +13,6 @@ public class SPLGauss {
     public void gaussReduction() {
         int rows = matrix.nRows;
         int cols = matrix.nCols;
-
         int lead = 0;
         // Mencari leading one
         for (int r = 0; r < rows; r++) {

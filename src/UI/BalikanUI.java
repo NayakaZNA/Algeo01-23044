@@ -39,22 +39,28 @@ public class BalikanUI {
         MatrixADT inv;
         switch (subchoice) {
             case 1:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE GAUSS ==================");
                 inv = InverseGaussJ.inverseGaussJ(mtx);
+                if (inv != null) {
+                    inv.printMatrix();
+                } else {
+                    System.out.println("Matriks tidak memiliki invers");
+                }
                 break;
              case 2:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE GAUSS ==================");
                 inv = InverseAdjoin.inverseAdj(mtx);
                 if (inv != null) {
-                    System.out.println("Balikan Matriks adalah: ");
                     inv.printMatrix();
-                } else System.out.println("Matriks tidak memiliki invers");
+                } else {
+                    System.out.println("Matriks tidak memiliki invers");
+                }
                 break;
             default:
                 inv = null;
                 break;
         }
-        if (inv != null) {
-            System.out.println("Balikan Matriks adalah: ");
-            inv.printMatrix();
-        } else System.out.println("Matriks tidak memiliki invers");
     }
 }

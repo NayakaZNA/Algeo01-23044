@@ -24,6 +24,12 @@ public class InterpolasiBicubicUI {
             System.out.println("Persamaan interpolasi adalah: ");
             BicubicSplineInterpolation.printEquation(coefs);
             System.out.println("Hasil interpolasi: " + res.getElmt(0, 0));
+        } else {
+            MatrixADT m = BicubicSplineInterpolation.straighten(mtx);
+            MatrixADT coefs = BicubicSplineInterpolation.bicubicSplineCoefs(m);
+            System.out.println("Persamaan interpolasi adalah: ");
+            System.out.println(BicubicSplineInterpolation.toString(mtx, coefs));
+
         }
     }
 }

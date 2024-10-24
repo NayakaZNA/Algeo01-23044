@@ -53,12 +53,12 @@ public class Main {
         MatrixADT mtx = null;
         MatrixADT result = new MatrixADT(1,1);
         while (mtx == null){
-            System.out.print("Masukkan nama file input (kosongkan untuk menggunakan input keyboard): ");
+            System.out.print("Masukkan nama file input yang disimpan di ../test (kosongkan untuk menggunakan input keyboard): ");
             filename = scanner.nextLine();
             if (filename == ""){
                 break;
             }
-            mtx = txtIO.readTXT(filename);
+            mtx = txtIO.readTXT("../test/"+filename);
         }
         while(true){
             int choice = -69420;

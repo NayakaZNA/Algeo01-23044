@@ -33,6 +33,9 @@ public class DeterminanUI{
             System.out.println("Masukkan matriks\n");
             mtx = new MatrixADT(dimension, dimension);
             mtx.readMatrix(dimension, dimension, scanner);
+        } else if (mtx.getRows() != mtx.getCols()) {
+            System.out.println("Dimensi matriks tidak seusai");
+            return;
         }
         switch (subchoice) {
             case 1:

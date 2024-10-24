@@ -51,7 +51,7 @@ public class DeterminanUI{
             case 2:
                 double det2 = DeterminanMK.detMK(mtx);
                 System.out.println();
-                System.out.println("================== DETERMINAN MINOR KOFAKTOR ==================");
+                System.out.println("================== DETERMINAN EKSPANSI KOFAKTOR ==================");
                 if (Math.abs(det2) < 1e-9) {
                     System.out.printf("Determinan : %.6e\n", det2);
                 } else {

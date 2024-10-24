@@ -1,0 +1,370 @@
+\section{Implementasi Program dan Pustaka}
+\subsection{Struktur Program}
+Program ini tersusun atas \verb|Main.java| dan lima folder yang memuat kode sumber tiap fitur. Struktur program disajikan melalui \textit{directory tree} berikut.
+
+\begin{figure}[htb!]
+    \centering
+    
+    \begin{minipage}{7cm}
+    \dirtree{%
+.1 /src.
+.2 Main.java.
+.2 Matrix.
+.3 MatrixADT.java.
+.3 DeterminanMK.java.
+.3 DeterminanReduksi.java.
+.3 InverseAdjoin.java.
+.3 InverseGaussJ.java.
+.3 SPLGauss.java.
+.3 SPLGaussJ.java.
+.3 SPLBalikan.java.
+.3 SPLCramer.java.
+.3 Regresi.java.
+.3 InterpolasiBicubicSpline.java.
+.3 InterpolasiPolinom.java.
+.2 ImageResizing.
+.3 ImageResizing.java.
+}
+    \end{minipage}
+    \caption{\textit{Directory tree} program}
+    \label{fig:dirtree}
+\end{figure}
+
+\subsection{Garis Besar Program}
+
+\pagebreak
+
+\subsection{Struktur \textit{Class} dalam Pustaka}
+Bagian ini menjelaskan struktur dari seluruh \textit{class} yang ada pada program, mencakup metode serta atribut dan konstruktor jika ada. Pada program ini, hanya \verb+MatrixADT.java+ yang mempunyai atribut dan konstruktor karena di kelas tersebut ADT untuk matriks didefinisikan, sementara \textit{class} lainnya lebih berperan sebagai \textit{utility}.
+
+\subsubsection{MatrixADT.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar atribut MatrixADT.java}
+    \begin{tabular}{p{0.2\textwidth}|p{0.15\textwidth}|p{0.55\textwidth}}
+        \hline
+        \hline
+        \multicolumn{3}{c}{\textbf{Atribut}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama} & \multicolumn{1}{c|}{Tipe} & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \verb|nRows|  & \verb|int|         & Panjang baris dari matriks \\[.5em]
+         \verb|nCols|  & \verb|int|         & Panjang kolom dari matriks \\[.5em]
+         \verb|matrix| & \verb|double[][]|  & \textit{array of array of double} yang menampung konten matriks
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar konstruktor MatrixADT.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Konstruktor}}\\
+        \hline
+        \hline
+        \multicolumn{1}{c}{Nama} & \multicolumn{1}{|c}{Deskripsi} \\
+         \hline 
+         \hline 
+        \texttt{MatrixADT(int nRows, int nCols)} & Membuat objek matriks bertipe \verb|double[][]| dengan dimensi \verb|nRows| $\times$ \verb|nCols| 
+    \end{tabular}
+\end{table}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode MatrixADT.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \verb|getRows()|                                   & Mengambil \verb|nRows| dari matriks \\[.5em]
+         \verb|getCols()|                                   & Mengambil \verb|nCols| dari matriks \\[.5em]
+         \verb|getElmt(int row, int col)|                   & Mengambil elemen pada baris \verb|row| kolom \verb|col| dari matriks \\[.5em]
+         \texttt{setElmt(int row, int col, double value)}   & Mengubah elemen pada baris \verb|row| kolom \verb|col| dari matriks menjadi \verb|value| \\[.5em]
+         \verb|printMatrix()|                               & Mencetak matriks dengan spasi sebagai pemisah antarkolom dan baris baru sebag[.5em]ai pemisah antarbaris \\[.5em]
+         \texttt{readMatrix(int row, int col)}              & Membaca matriks berukuran \verb|row| $\times$ \verb|col| dengan spasi sebagai pemisah antarkolom dan baris baru sebagai pemisah antarbaris \\[.5em]
+         \texttt{matrixMinor(MatrixADT m, int i, int j)}    & Mengembalikan matriks minor dari elemen pada baris \verb|i| kolom \verb|j| \\[.5em]
+         \verb|copyMatrix()|                                & Membuat salinan dari suatu matriks   
+    \end{tabular}
+\end{table}
+
+\subsubsection{txtIO.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode txtIO.java}
+    \begin{tabular}{p{0.3\textwidth}|p{0.6\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \texttt{readTXT(String filename)}&  Membaca matriks dari file \verb|filename.txt| dengan pemisah antarbaris enter dan pemisah antarkolom spasi lalu menyimpannya dalam \verb|inputMatrix|\\[.5em]
+         \texttt{writeTXT(String filename, MatrixADT outputMatrix)}&  Menuliskan \verb|outputMatrix| ke dalam \verb|filename.txt| dengan pemisah antarbaris enter dan pemisah antarkolom spasi.
+    \end{tabular}
+\end{table}
+
+\subsubsection{DeterminanMK.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode DeterminanMK.java}
+    \begin{tabular}{p{0.2\textwidth}|p{0.7\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         detMK(MatrixADT m) & Menghitung determinan menggunakan metode ekspansi kofaktor Laplace 
+    \end{tabular}
+\end{table}
+
+\subsubsection{DeterminanReduksi.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode DeterminanReduksi.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \verb|detRB(MatrixADT m)|      & Menghitung determinan dengan reduksi baris dan kolom \\[.5em]
+         \verb+swapRows(MatrixADT m, int row1, int row2)+   & Menukar \verb+row1+ dan \verb+row2+ pada matriks \verb+m+
+    \end{tabular}
+\end{table}
+
+\subsubsection{InverseAdjoin.java}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode InverseAdjoin.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \verb+inverseAdj(MatrixADT m)+ & Menghitung \verb+m+$^{-1}$  \\[.5em]
+         \verb+cofactor(MatrixADT m, int i, int j)+ & Menghitung kofaktor dari entri \verb+m+$_{\texttt{ij}}$  \\[.5em]
+         \verb+transpose(MatrixADT m)+ & Menukar baris dengan kolom untuk menghasilkan transpos dari matriks \verb+m+
+    \end{tabular}
+\end{table}
+
+\subsubsection{InverseGaussJ.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode InverseGaussJ.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+        \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+        \hline 
+        \hline 
+        \verb+inverseGaussJ(MatrixADT m)+  & Menghitung \verb+m+$^{-1}$ \\[.5em]
+        \verb+convertMatrix(MatrixADT m)+  & Membentuk matriks \textit{augmented} $[\verb+m+ | I]$ \\[.5em]
+        \verb+OBEGaussJ(MatrixADT m)+      & Menerapkan OBE untuk mentransformasi $[\verb+m+ | I]$ menjadi $[I | \verb+m+^{-1}]$ \\[.5em]
+        \verb+swapRows(MatrixADT m, int row1, int row2)+ & Menukar \verb+row1+ dan \verb+row2+ pada matriks \verb+m+
+    \end{tabular}
+\end{table}
+
+\subsubsection{SPLGauss.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode SPLGauss.java}
+    \begin{tabular}{p{0.35\textwidth}|p{0.55\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \verb+gaussReduction()+                        &  Menerapkan reduksi OBE untuk mendapatkan matriks eselon baris \\[.5em]
+         \verb+swapRows(int row1, int row2)+            &  Menukarkan \verb+row1+ dengan \verb+row2+ \\[.5em]
+         \verb+round(double value)+                     & Membulatkan bilangan yang harga mutlaknya di bawah $10^{-9}$ menjadi nol \\[.5em]
+         \verb+detectSolution()+                        & Memeriksa ada tidaknya solusi SPL \\[.5em]
+         \texttt{printUniqueSolution(int[] pivotRow)}   & Mencetak solusi unik dari SPL \\[.5em]
+         \texttt{printParametricSolution(boolean[] isPivotColumn, int[] pivotRow)}   & Mencetak solusi parametrik dari SPL
+    \end{tabular}
+\end{table}
+
+\subsubsection{SPLGaussJ.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode SPLGaussJ.java}
+    \begin{tabular}{p{0.35\textwidth}|p{0.55\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+        \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+        \hline 
+        \hline 
+         \verb+gaussReduction()+                        &  Menerapkan reduksi OBE untuk mendapatkan matriks eselon baris \\[.5em]
+         \verb+swapRows(int row1, int row2)+            &  Menukarkan \verb+row1+ dengan \verb+row2+ \\[.5em]
+         \verb+round(double value)+                     & Membulatkan bilangan yang harga mutlaknya di bawah $10^{-9}$ menjadi nol \\[.5em]
+         \verb+detectSolution()+                        & Memeriksa ada tidaknya solusi SPL \\[.5em]
+         \texttt{printUniqueSolution(int[] pivotRow)}   & Mencetak solusi unik dari SPL \\[.5em]
+         \texttt{printParametricSolution(boolean[] isPivotColumn, int[] pivotRow)}   & Mencetak solusi parametrik dari SPL
+    \end{tabular}
+\end{table}
+
+\subsubsection{SPLBalikan.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode SPLBalikan.java}
+    \begin{tabular}{p{0.35\textwidth}|p{0.55\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+        \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+        \hline 
+        \hline 
+        \texttt{balikan(MatrixADT m)} & Menghitung balikan dari \verb+m+ dengan metode balikan
+    \end{tabular}
+\end{table}
+
+\subsubsection{SPLCramer.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode SPLCramer.java}
+    \begin{tabular}{p{0.35\textwidth}|p{0.55\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+        \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+        \hline 
+        \hline 
+        \texttt{cramer(MatrixADT m)} & Menghitung solusi SPL dengan kaidah Cramer \\[.5em]
+        \texttt{computeDeterminant(MatrixADT m)} & Menghitung $\det(\texttt{m})$ dengan reduksi baris \\[.5em]
+        \texttt{swapRows(MatrixADT m, int row1, int row2)} & Menukarkan \verb+row1+ dengan \verb+row2+ 
+    \end{tabular}
+\end{table}
+
+\subsubsection{Regresi.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode Regresi.java}
+    \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \texttt{regresiLinearBerganda(MatrixADT data)} & Menerapkan regresi linear berganda pada \verb+data+ dan menghasilkan koefisien regresinya \\[.5em]
+         \texttt{regresiKuadratikBerganda(MatrixADT data)} & Menerapkan regresi kuadratik berganda pada \verb+data+ dan menghasilkan koefisien regresinya \\[.5em]
+         \texttt{printLinearSolution(MatrixADT coefs)} & Mencetak solusi regresi linear berganda berupa persamaan linear \\[.5em]
+         \texttt{printQuadraticSolution(MatrixADT coefs, int nVars)} & Mencetak solusi regresi kuadratik berganda berupa persamaan kuadratik \\[.5em]
+         \texttt{predict(MatrixADT coefs, MatrixADT queries)} & Memprediksi hasil menggunakan koefisien \verb+coefs+ yang diperoleh dari regresi linier dan \verb+queries+ \\[.5em]
+         \texttt{multipleQuadraticEquation(MatrixADT coefs, MatrixADT queries)} & Menghitung hasil dari persamaan kuadratik ganda untuk \verb+queries+ dengan koefisien dari \verb+coefs+ 
+    \end{tabular}
+\end{table}
+
+\subsubsection{InterpolasiPolinom.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode InterpolasiPolinom.java}
+        \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \texttt{scanPoints(int n)}& Memindai \verb|n+1| titik sampel \\[.5em]
+         \texttt{SubstitutePoints(MatrixADT points)}& Mensubstitusikan titik-titik sampel ke dalam matriks Vandermonde \\[.5em]
+         \texttt{PolynomialCoefficients(MatrixADT points)}& Memberikan koefisien dari polinom hasil interpolasi \\[.5em]
+         \texttt{displaySolution(MatrixADT coefs)}& Menampilkan solusi interpolasi polinom
+    \end{tabular}
+\end{table}
+
+\subsubsection{BicubicSplineInterpolation.java}
+
+\begin{table}[H]
+    \centering
+    \caption{Daftar metode InterpolasiBicubicSpline.java}
+        \begin{tabular}{p{0.5\textwidth}|p{0.4\textwidth}}
+        \hline
+        \hline
+        \multicolumn{2}{c}{\textbf{Metode}}\\
+        \hline
+        \hline
+         \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+         \hline 
+         \hline 
+         \texttt{bicubicSplineMatrixGenerator(MatrixADT coordinates)} & Menghasilkan matriks spline bicubic berdasarkan koordinat yang diberikan. \\[.5em]
+         % \texttt{straighten(MatrixADT input)} & Mengubah suatu matriks menjadi suatu vektor kolom \\[.5em]
+         \texttt{bicubicSplineCoefs(MatrixADT values)} & Menghasilkan matriks koefisien $A$  \\[.5em]
+         \texttt{bicubicSplineCoefs(MatrixADT coordinates, MatrixADT values)} & Menghasilkan matriks koefisien untuk koordinat tertentu (selain \textit{unit} square) \\[.5em]
+         \texttt{bicubicEquation(MatrixADT coefs, double x, double y)} & Mengevaluasi nilai $f(x, y)$ berdasarkan matriks koefisien \verb+coefs+ \\[.5em]
+         \texttt{bicubicSplineInterpolation(MatrixADT values, MatrixADT queries)} & Melakukan interpolasi bicubic berdasarkan nilai yang diberikan dan titik kueri.  \\[.5em]
+         \texttt{bicubicSplineInterpolation(MatrixADT coordinates, MatrixADT values, double x, double y)} & Menghitung interpolasi bicubic untuk koordinat dan nilai tertentu pada titik (x,y). \\[.5em]
+         \texttt{printEquation(MatrixADT coefs)} &  Mencetak persamaan spline bicubic dalam bentuk polinom dengan koefisien dari \verb+coefs+
+    \end{tabular}
+\end{table}
+
+
+% \subsubsection{ImageResizing.java}
+
+% \begin{table}[H]
+%     \centering
+%     \caption{Daftar metode ImageResizing.java}
+%         \begin{tabular}{p{0.4\textwidth}|p{0.5\textwidth}}
+%         \hline
+%         \hline
+%         \multicolumn{2}{c}{\textbf{Metode}}\\
+%         \hline
+%         \hline
+%          \multicolumn{1}{c|}{Nama}  & \multicolumn{1}{c}{Deskripsi} \\
+%          \hline 
+%          \hline 
+%          &  \\
+%          &  \\
+%     \end{tabular}
+% \end{table}
+
+\pagebreak

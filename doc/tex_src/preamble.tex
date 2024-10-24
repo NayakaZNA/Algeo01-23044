@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{ebgaramond-maths}
 \usepackage[T1]{fontenc}
+\usepackage[margin=1.5cm]{geometry}
 
 %==Math & Physics Packages==
 \usepackage{amsmath, amsthm, amsfonts, amssymb, physics, cancel, nicefrac, setspace}
@@ -34,7 +35,8 @@
 \definecolor{merjamb}{HTML}{FFB6E0}
 
 %==Formatting Packages==
-
+\usepackage{enumitem}
+\usepackage{tabularx}
 \usepackage{float}
 \usepackage{caption}
 \usepackage{tocbasic}
@@ -104,8 +106,8 @@
 	colframe=black!40!gray, coltitle=white, colback=white, coltext=black!80!gray, colbacktitle=black!40!gray, enhanced, fonttitle=\bfseries,fontupper=\normalsize, attach boxed title to top left={yshift=-2mm}, before skip=8pt, after skip=8pt,
 	title=Contoh~\thetcbcounter \ \ #1}
 
-% Catatan
-\newtcbtheorem[use counter=hitung, number within=section]{rmr}{Catatan}
+% Komentar
+\newtcbtheorem[use counter=hitung, number within=section]{rmr}{Komentar}
 {theorem style=theorem wide name and number,breakable,enhanced,arc=0mm,outer arc=0mm,
 	boxrule=0pt,toprule=1pt,leftrule=0pt,bottomrule=1pt, rightrule=0pt,left=0.2cm,right=0.2cm,
 	titlerule=0.5em,toptitle=0.1cm,bottomtitle=-0.1cm,top=0.2cm,
@@ -115,7 +117,30 @@
 
 
 %==Layouting Packages==
-\usepackage{titlesec, fancyvrb, listings, upquote}
+\usepackage{titlesec, fancyvrb, fancyhdr, listings, upquote}
+
+\fancyhead[L]{Kelompok 1: Raka Gnarly}
+\fancyhead[R]{IF$2123$ Aljabar Linear dan Geometri (2024)}
+
+\makeatletter
+\def\VerbLB{\FV@Command{}{VerbLB}}
+\begingroup
+\catcode`\^^M=\active%
+\gdef\FVC@VerbLB#1{%
+  \begingroup%
+    \FV@UseKeyValues%
+    \FV@FormattingPrep%
+    \FV@CatCodes%
+    \def^^M{ }%
+    \catcode`#1=12%
+    \def\@tempa{\def\FancyVerbGetVerb####1####2}%
+    \expandafter\@tempa\string#1{\mbox{##2}\endgroup}%
+    \FancyVerbGetVerb\FV@EOL}%
+\endgroup
+\makeatother
+
+\renewcommand{\lstlistingname}{Studi Kasus}
+\renewcommand{\lstlistlistingname}{Daftar \lstlistingname}
 \setlength{\headheight}{14.39996pt}
 \lstdefinestyle{default}{
 	commentstyle=\color{black!20!hijau},
@@ -211,15 +236,15 @@
  %%%%%%%%%%%%%%%%%%%%%
  \title{
 \textbf{Laporan Tugas Besar 1} 
-\\ IF$2123$ Aljabar Linear dan Geometri \\[5em]
+\\ IF$2123$ Aljabar Linear dan Geometri \\[1em]
 }
 
 \author{
-{\centering\includegraphics[scale=0.1]{cat.jpg} } \\[2.5em]
+{\centering\includegraphics[scale=0.75]{judul.jpg}} \\[1.5em] Disusun oleh: \\ \textit{Kelompok 1 -- Raka Gnarly} \\
 $\begin{array}{ll}
     \text{Muhammad Luqman Hakim}           & 13523044 \\ 
     \text{Zulfaqqar Nayaka Athadiansyah}   & 13523094 \\ 
-    \text{Farrel Athalla Putra}            & 13523118 \\[5em]
+    \text{Farrel Athalla Putra}            & 13523118 \\[3em]
 \end{array}$
     } 
 

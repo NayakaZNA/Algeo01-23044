@@ -1,5 +1,7 @@
 package UI;
+import Matrix.*;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class BalikanUI {
     public static void balikan(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
@@ -37,22 +39,28 @@ public class BalikanUI {
         MatrixADT inv;
         switch (subchoice) {
             case 1:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN INVERSE METODE GAUSS JORDAN ==================");
                 inv = InverseGaussJ.inverseGaussJ(mtx);
+                if (inv != null) {
+                    inv.printMatrix();
+                } else {
+                    System.out.println("Matriks tidak memiliki invers");
+                }
                 break;
              case 2:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN INVERSE METODE ADJOIN ==================");
                 inv = InverseAdjoin.inverseAdj(mtx);
                 if (inv != null) {
-                    System.out.println("Balikan Matriks adalah: ");
                     inv.printMatrix();
-                } else System.out.println("Matriks tidak memiliki invers");
+                } else {
+                    System.out.println("Matriks tidak memiliki invers");
+                }
                 break;
             default:
                 inv = null;
                 break;
         }
-        if (inv != null) {
-            System.out.println("Balikan Matriks adalah: ");
-            inv.printMatrix();
-        } else System.out.println("Matriks tidak memiliki invers");
     }
 }

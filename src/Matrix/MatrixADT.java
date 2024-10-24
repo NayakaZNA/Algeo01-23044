@@ -1,5 +1,6 @@
 package Matrix;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class MatrixADT {
     public double[][] matrix;
@@ -36,6 +37,7 @@ public class MatrixADT {
 
     public void printMatrix() {
         for (int i = 0; i < nRows; i++) {
+            System.out.print("[ ");
             for (int j = 0; j < nCols; j++) {
                 System.out.printf("%.6f", matrix[i][j]);
 
@@ -43,14 +45,12 @@ public class MatrixADT {
                     System.out.print(" ");
                 }
             }
-            if (i != nRows - 1) {
-                System.out.println();
-            }
+            System.out.println(" ]");
         }
-        System.out.println();
     }
 
     public int readMatrix(int row, int col, Scanner scan) {
+        scan.useLocale(Locale.US);
         double data;
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {

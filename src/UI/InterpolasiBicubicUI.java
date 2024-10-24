@@ -1,5 +1,7 @@
 package UI;
+import Matrix.*;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class InterpolasiBicubicUI {
     public static void interpolasiBicubic(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){

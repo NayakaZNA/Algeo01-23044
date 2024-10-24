@@ -1,9 +1,11 @@
 package UI;
-import java.util.scanner;
+import Matrix.*;
+import java.util.Scanner;
+import java.util.InputMismatchException;
 public class SPLUI {
     public static void spl(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
         subchoice = -1;
-        MatrixADT mtxSPL, mtxy;
+        MatrixADT mtxSPL, mtxy, mtxBalikan;
         while(subchoice < 0 || subchoice > 4) {
             System.out.println(
             "\n0. Kembali" +
@@ -19,50 +21,69 @@ public class SPLUI {
             }
         }
         if (subchoice == 0) return;
-        int vars = -1;
+        int rows = -1;
+        int cols = -1;
         if (mtx == null){
             try {
-                System.out.println("Masukkan jumlah variabel");
-                vars = scanner.nextInt();
+                System.out.println("Masukkan banyak baris matriks transformasi");
+                rows = scanner.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("\nMasukan Anda salah!\n");
+                scanner.nextLine();
+            }
+            try {
+                System.out.println("Masukkan banyak kolom matriks transformasi");
+                cols = scanner.nextInt();
             } catch (InputMismatchException e) {
                 System.out.println("\nMasukan Anda salah!\n");
                 scanner.nextLine();
             }
             System.out.println("Masukkan matriks transformasi");
-            mtx = new MatrixADT(vars, vars);
-            mtx.readMatrix(vars, vars, scanner);
+            mtx = new MatrixADT(rows, cols);
+            mtx.readMatrix(rows, cols, scanner);
             System.out.println("Masukkan vektor hasil");
-            mtxy = new MatrixADT(vars, 1);
-            mtxy.readMatrix(vars, 1, scanner);
-            mtxSPL = new MatrixADT(vars, vars+1);
-            for(int i = 0; i < vars; i++){
-                for(int j = 0; j < vars; j++){
+            scanner.nextLine();
+            mtxy = new MatrixADT(rows, 1);
+            mtxy.readMatrix(rows, 1, scanner);
+            mtxSPL = new MatrixADT(rows, cols+1);
+            for(int i = 0; i < rows; i++){
+                for(int j = 0; j < cols; j++){
                     mtxSPL.setElmt(i, j, mtx.getElmt(i, j));
                 }
             }
-            for(int i = 0; i < vars; i++){
-                mtxSPL.setElmt(i, vars, mtxy.getElmt(i, 0));
+            for(int i = 0; i < rows; i++){
+                mtxSPL.setElmt(i, cols, mtxy.getElmt(i, 0));
             }
         } else {
-            mtxSPL = new MatrixADT(vars, vars+1);
+            mtxSPL = new MatrixADT(mtx.getRows(), mtx.getCols());
             mtxSPL = mtx;
         };
         switch (subchoice) {
             case 1:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE GAUSS ==================");
                 SPLGauss mGauss = new SPLGauss(mtxSPL);
                 mGauss.gaussReduction();
                 break;
             case 2:
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE GAUSS JORDAN ==================");
                 SPLGaussJ mGaussJ = new SPLGaussJ(mtxSPL);
                 mGaussJ.gaussJordanElimination();
                 break;
             case 3:
-                SPLBalikan.displaySolution(SPLBalikan.solve(mtx));
-                System.out.println("");
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE BALIKAN ==================");
+                SPLBalikan.solve(mtxSPL);
+                // SPLBalikan.displaySolution(SPLBalikan.solve(mtx));
+                // System.out.println("");
                 break;
             case 4:
-                SPLBalikan.displaySolution(SPLCramer.solve(mtx));
-                System.out.println("");
+                System.out.println();
+                System.out.println("================== PENYELESAIAN SPL METODE CRAMER ==================");
+                SPLCramer.solve(mtxSPL);
+                // SPLBalikan.displaySolution(SPLCramer.solve(mtx));
+                // System.out.println("");
                 break;
             default:
                 break;

@@ -16,18 +16,22 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    private static String getSaveFileName(Scanner scanner){
+    public static String getSaveFileName(Scanner scanner){
         Boolean saveFile = null;
         String saveFileName = null;
+        scanner.nextLine();
         do {
             System.out.println("Simpan hasil dalam file? (y/n)");
             String save = scanner.nextLine();
-            if (save.toLowerCase().trim() == "y") {
+            if (save.toLowerCase().trim().equals("y")) {
+                System.out.println("y");
                 saveFile = true;
-            } else if (save.toLowerCase().trim() == "n"){
+            } else if (save.toLowerCase().trim().equals("n")){
+                System.out.println("n");
                 saveFile = false;
                 return null;
             } else {
+                System.out.println("err");
                 saveFile = null;
             }
         } while (saveFile == null);
@@ -83,22 +87,22 @@ public class Main {
 
             switch (choice) {
                 case 1: // SPL
-                    spl(subchoice, mtx, result, scanner);
+                    SPLUI.spl(subchoice, mtx, result, scanner);
                     break;
                 case 2: //determinan
-                    determinan(subchoice, mtx, result, scanner);
+                    DeterminanUI.determinan(subchoice, mtx, result, scanner);
                     break;
                 case 3: //balikan
-                    balikan(subchoice, mtx, result, scanner);
+                    BalikanUI.balikan(subchoice, mtx, result, scanner);
                     break;
                 case 4: //interpolasi polinom
-                    interpolasiPolinom(subchoice, mtx, result, scanner);
+                    InterpolasiPolinomUI.interpolasiPolinom(subchoice, mtx, result, scanner);
                     break;
                 case 5: //interpolasi bicubic
-                    interpolasiBicubic(subchoice, mtx, result, scanner);
+                    InterpolasiBicubicUI.interpolasiBicubic(subchoice, mtx, result, scanner);
                     break;
                 case 6: //regresi
-                    regresi(subchoice, mtx, result, scanner);
+                    RegresiUI.regresi(subchoice, mtx, result, scanner);
                     break;
                 case 7:
                     scanner.close();

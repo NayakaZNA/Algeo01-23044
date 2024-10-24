@@ -1,5 +1,7 @@
 package UI;
+import Matrix.*;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class DeterminanUI{
     public static void determinan(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
@@ -42,9 +44,8 @@ public class DeterminanUI{
             default:
                 break;
         }
-        String saveFile = getSaveFileName(scanner);
-        if (saveFile != null) {
-            
-        }
+        String saveFile = Main.getSaveFileName(scanner);
+         if (saveFile != null) {
+         }
     }
 }

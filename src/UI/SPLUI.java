@@ -1,5 +1,7 @@
 package UI;
-import java.util.scanner;
+import Matrix.*;
+import java.util.Scanner;
+import java.util.InputMismatchException;
 public class SPLUI {
     public static void spl(int subchoice, MatrixADT mtx, MatrixADT result, Scanner scanner){
         subchoice = -1;

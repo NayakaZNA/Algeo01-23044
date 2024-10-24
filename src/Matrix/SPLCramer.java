@@ -22,6 +22,7 @@ public class SPLCramer {
         double detCoefficient = coefficientMatrix.determinant();
 
         if (detCoefficient == 0) {
+            System.out.println("No Solution");
             return null;
         }
 
@@ -50,7 +51,7 @@ public class SPLCramer {
 
         // Step 3: Output the solution
         for (int i = 0; i < cols - 1; i++) {
-            System.out.printf("X%d = %.6f\n", i + 1, res[i]);
+            System.out.printf("X%d = %.6f\n", i + 1, res[i][0]);
         }
         return new MatrixADT(res);
     }
